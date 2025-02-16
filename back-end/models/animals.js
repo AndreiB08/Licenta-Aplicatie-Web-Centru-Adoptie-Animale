@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { db } from "./config.js";
 
-export const Animal = db.define("Animal", {
+export const Animal = db.define("animal", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -21,7 +21,10 @@ export const Animal = db.define("Animal", {
     },
     age: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            min: 0
+        }
     },
     gender: {
         type: DataTypes.ENUM('male', 'female'),
@@ -56,7 +59,8 @@ export const Animal = db.define("Animal", {
     },
     arrival_date: {
         type: DataTypes.DATEONLY,
-        allowNull: false
+        allowNull: false,
+        defaultValue: DataTypes.NOW
     },
     notes: {
         type: DataTypes.TEXT,
@@ -74,9 +78,21 @@ export const Animal = db.define("Animal", {
         allowNull: false,
         defaultValue: DataTypes.NOW
     },
-    external_id: {
+    // external_id: {
+    //     type: DataTypes.STRING,
+    //     unique: true,
+    //     allowNull: true
+    // },
+    microchip_number: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: true
     }
+}, {
+    timestamps: true
 });
+
+// Animal.addIndex({ fields: ['species'] });
+// Animal.addIndex({ fields: ['adoption_status'] });
+// Animal.addIndex({ fields: ['arrival_date'] });
+// Animal.addIndex({ fields: ['microchip_number'] });
