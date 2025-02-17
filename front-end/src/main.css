@@ -3,10 +3,13 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', Arial, sans-serif;
+    text-align: justify;
+    font-size: 18px;
   }
   
   body {
     position: relative;
-    background-color: #aee3e7;
+    background-color: #E4F0F0;
+    color: rgb(1, 12, 29);
   }
   

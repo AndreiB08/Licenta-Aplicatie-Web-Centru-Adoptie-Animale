@@ -12,7 +12,7 @@ import poza3 from '../../Assets/caine3.jpg';
 
 
 const Home = () => {
-  const images = [poza1, poza2, poza3];
+  const images = [poza1, poza2, poza3, poza1, poza2, poza3];
 
   return (
     <div className="home">
@@ -21,8 +21,7 @@ const Home = () => {
       <div className="content">
         <div className="info">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Repellendus dicta odio ipsam velit, officiis nam, architecto autem quia magnam odit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus dicta odio ipsam velit, officiis nam, architecto autem quia magnam odit. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus, tenetur iure laborum enim aliquid quis qui iusto maiores, tempore quidem facilis consequatur voluptates eveniet molestiae incidunt, illo velit provident saepe. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam reiciendis nisi, magnam esse explicabo aliquam fugiat commodi, officiis, incidunt tempora sequi deserunt ratione odio. Rem debitis tenetur explicabo dolorum aut? Lorem ipsum dolor sit amet consectetur adipisicing elit. Est adipisci a, cum labore facilis eaque maiores praesentium molestias maxime id ipsa nemo facere perferendis asperiores eveniet consequatur quia sequi officiis!
           </p>
         </div>
 
@@ -39,8 +38,8 @@ const Home = () => {
               <SwiperSlide key={index}>
                 <img
                   src={url}
-                  alt={`Slide ${index}`}
-                  className="w-full h-64 object-cover rounded-lg shadow-lg"
+                  alt={`Câine ${index}`}
+                  // className="w-full h-64 object-cover rounded-lg shadow-lg"
                 />
               </SwiperSlide>
             ))}
