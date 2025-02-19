@@ -1,0 +1,51 @@
+/* Asigură un margin top între navbar și textul principal */
+.page-title {
+    margin-top: 40px; /* Ajustează acest spațiu în funcție de cât de mult vrei să ridici textul */
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;  /* Culoare pentru text */
+}
+
+/* Container pentru carduri pentru a păstra un layout curat */
+.container {
+    width: 100%;
+    padding: 0 20px;  /* Margini laterale pentru a nu atinge marginile ecranului */
+    box-sizing: border-box;
+    margin-top: 20px;  /* Puțin spațiu deasupra pentru a separa de titlu */
+}
+
+/* Stilizare pentru Grid (pentru alinierea cardurilor) */
+.MuiGrid-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Adăugăm un background ușor pentru întreaga pagină */
+body {
+    background-color: #f4f6f9;  /* Culoare ușoară pentru fundal */
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Responsivitate - ajustăm pentru mobil */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 20px;  /* Micșorăm fontul pe mobil */
+    }
+
+    .container {
+        padding: 10px;  /* Reducem padding-ul pe mobil */
+    }
+
+    .MuiGrid-root {
+        flex-direction: column;  /* Pe mobil, cardurile vor fi afișate vertical */
+    }
+}
+
+.grid-pets {
+    margin-top: 10px;
+}
