@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../Pages/Home/Home";
 import NotFound from "../Pages/NotFound/NotFound";
 import Navbar from "../Components/NavBar/NavBar";
+import Footer from "../Components/Footer/Footer";
+import "./App.css"; // Import corect
 
 const App = () => {
   useEffect(() => {
@@ -12,11 +14,13 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />}/>
-
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <div className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+      <Footer />
     </Router>
   );
 };

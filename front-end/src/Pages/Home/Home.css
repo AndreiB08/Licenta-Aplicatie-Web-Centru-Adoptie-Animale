@@ -28,16 +28,17 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .info {
-    max-width: 850px;
+    max-width: 135vh;
     max-height: 700px;
 
 }
 
 .swiper-container {
-    max-width: 600px;
+    max-width: 69vh;
     max-height: 700px;
     overflow: hidden;
     border-radius: 10px;
@@ -62,8 +63,8 @@ body {
 
 .content-info {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, auto);
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-rows: auto;
     justify-content: center;
     align-items: center;
     gap: 20px;
@@ -74,9 +75,12 @@ body {
     text-align: center;
     font-size: 23px;
     font-weight: bolder;
+    padding-bottom: 20px;
   }
 
   .content-info img {
     height: 240px;
     border-radius: 5px;
+    display: block;
+    margin: 0 auto;
   }
