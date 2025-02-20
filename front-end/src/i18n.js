@@ -25,7 +25,10 @@ i18n.use(initReactI18next).init({
         contact: "Contact",
         rights_reserved: "All rights reserved.",
         privacy_policy: "Privacy Policy",
-        terms: "Terms and Conditions"
+        terms: "Terms and Conditions",
+        not_found: "Page not found",
+        does_not_exist: "We're sorry, but the page you're looking for doesn't exist.",
+        back_home : "Go back to Home"
       },
     },
     ro: {
@@ -50,7 +53,10 @@ i18n.use(initReactI18next).init({
         contact: "Contact",
         rights_reserved: "Toate drepturile rezervate.",
         privacy_policy: "Politica de confidențialitate",
-        terms: "Termeni și condiții"
+        terms: "Termeni și condiții",
+        not_found: "Pagina nu a fost găsită",
+        does_not_exist: "Ne pare rău, dar pagina pe care o cauți nu există.",
+        back_home : "Mergi înapoi la pagina principală."
       },
     },
   },

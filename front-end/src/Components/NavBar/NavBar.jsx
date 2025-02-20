@@ -9,7 +9,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <div className="navbar-brand">{t('pet_adoption')}</div>
+            <div className="navbar-brand"><Link to="/">{t('pet_adoption')}</Link></div>
             <ul className="navbar-links">
                 <li><Link to="/">{t('home')}</Link></li>
                 <li><Link to="/pets">{t('pets')}</Link></li>

@@ -12,9 +12,11 @@
     z-index: 1000;
 }
 
-.navbar-brand {
+.navbar-brand a {
     font-size: 20px;
     font-weight: bold;
+    color: white;
+    text-decoration: none;
 }
 
 .navbar-links {
