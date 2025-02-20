@@ -6,10 +6,30 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "./PetCard.css";
+import { useTranslation } from "react-i18next";
+
+const getStatusClass = (status) => {
+  switch (status) {
+    case 'available':
+      return 'status-available';
+    case 'adopted':
+      return 'status-adopted';
+    case 'reserved':
+      return 'status-reserved';
+    default:
+      return "";
+  }
+};
+
+const getCardClass = (status) => {
+  return status === 'reserved' ? 'pet-card reserved-card' : 'pet-card';
+}
 
 const PetCard = ({ name, species, breed, age, adoption_status, image }) => {
+  const { t } =useTranslation();
+
   return (
-    <Card sx={{ width: 300, margin: 2, boxShadow: 3 }}>
+    <Card sx={{ width: 300, margin: 2, boxShadow: 3 }} className={getCardClass(adoption_status)}>
       <CardMedia
         sx={{
           height: 220,
@@ -30,19 +50,16 @@ const PetCard = ({ name, species, breed, age, adoption_status, image }) => {
         <Typography variant="body2" color="text.secondary">
           Vârstă: {age} ani
         </Typography>
-        <Typography 
-          variant="body2" 
-          sx={{ fontWeight: 'bold', color: adoption_status === 'available' ? 'green' : 'red' }}
-        >
-          Status: {adoption_status}
+        <Typography variant="body2" sx={{ fontWeight: 'bold'}} className={`status ${getStatusClass(adoption_status)}`}>
+        Status: {t(`adoption_status.${adoption_status}`)}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ backgroundColor: "#f8f9fa"}}>
         <Button
         size="small"
         variant="contained"
         sx={{ backgroundColor: "#048A81", "&:hover": { backgroundColor: "#036F68" } }}>
-          Adoptă
+          {t("adopt")}
         </Button>
       </CardActions>
     </Card>

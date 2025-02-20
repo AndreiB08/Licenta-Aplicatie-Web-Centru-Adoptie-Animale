@@ -22,14 +22,16 @@ const Pets = () => {
             <h3 className="page-title">{t('adoption_status.available')}</h3>
             <Grid container spacing={3} justifyContent="center" className="grid-pets">
                 {pets.length > 0 ? (
-                    pets.map((pet) => (
+                    pets
+                        // .filter((pet) => pet.adoption_status !== 'adopted')
+                        .map((pet) => (
                         <Grid item key={pet.id}>
                             <PetCard
                                 name={pet.name}
                                 species={t(`species.${pet.species}`)}  
                                 breed={pet.breed}
                                 age={pet.age}
-                                adoption_status={t(`adoption_status.${pet.adoption_status}`)}  
+                                adoption_status={pet.adoption_status}  
                                 image={pet.image}
                             />
                         </Grid>

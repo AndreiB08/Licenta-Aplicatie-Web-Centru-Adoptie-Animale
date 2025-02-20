@@ -49,10 +49,10 @@ const addAnimal = async (req, res) => {
             return res.status(400).send({ message: "Invalid date format for arrival_date" });
         }        
 
-        const urlPattern = /^(https?:\/\/)[\w.-]+\.[a-z]{2,}([\/\w.-]*)*\.(jpg|jpeg|png|webp)$/i;
-        if (!urlPattern.test(animal.image)) {
-            return res.status(400).send({ message: "Invalid URL format for image" });
-        }
+        // const urlPattern = /^(https?:\/\/)[\w.-]+\.[a-z]{2,}([\/\w.-]*)*\.(jpg|jpeg|png|webp)$/i;
+        // if (!urlPattern.test(animal.image)) {
+        //     return res.status(400).send({ message: "Invalid URL format for image" });
+        // }
 
         const newAnimal = await Animal.create(animal);
         res.status(201).send({ message: "Animal added successfully: ", animal: newAnimal.name });

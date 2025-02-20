@@ -1,5 +1,5 @@
 .pet-card {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.1s ease-in-out;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
@@ -23,23 +23,27 @@
 }
 
 .status {
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: inline-block;
+    text-align: left;
+    padding-top: 10px;
 }
 
-.available {
-    background-color: green;
-    color: white;
+.status-available {
+    color: green !important;
 }
 
-.adopted {
-    background-color: gray;
-    color: white;
+.status-adopted {
+    color: red !important;
 }
 
-.reserved {
-    background-color: orange;
-    color: white;
+.reserved-card {
+    background-color: #d3d3d3 !important;
+}
+
+.status-reserved {
+    color: rgb(216, 193, 66) !important;
+}
+
+.reserved-card .MuiCardMedia-root {
+    filter: grayscale(100%) !important;
+    opacity: 0.7 !important;
 }

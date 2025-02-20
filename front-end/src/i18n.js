@@ -8,10 +8,13 @@ i18n.use(initReactI18next).init({
         species: {
           dog: "Dog",
           cat: "Cat",
+          rabbit: "Rabbit",
+          parrot: "Parrot"
         },
         adoption_status: {
           available: "Available for adoption",
           adopted: "Adopted",
+          reserved: "Reserved"
         },
         no_pets_available: "Currently, there are no animals available."
       },
@@ -21,10 +24,13 @@ i18n.use(initReactI18next).init({
         species: {
           dog: "Câine",
           cat: "Pisică",
+          rabbit: "Iepure",
+          parrot: "Papagal"
         },
         adoption_status: {
           available: "Disponibil pentru adopție",
           adopted: "Adoptat",
+          reserved: "Rezervat"
         },
         no_pets_available: "Momentan nu există animale disponibile."
       },
