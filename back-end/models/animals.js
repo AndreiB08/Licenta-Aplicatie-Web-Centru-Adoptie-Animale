@@ -78,21 +78,17 @@ export const Animal = db.define("animal", {
         allowNull: false,
         defaultValue: DataTypes.NOW
     },
-    // external_id: {
-    //     type: DataTypes.STRING,
-    //     unique: true,
-    //     allowNull: true
-    // },
     microchip_number: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    indexes: [
+        { fields: ['species'] },
+        { fields: ['adoption_status'] },
+        { fields: ['arrival_date'] },
+        { fields: ['microchip_number'], unique: true }
+    ]
 });
-
-// Animal.addIndex({ fields: ['species'] });
-// Animal.addIndex({ fields: ['adoption_status'] });
-// Animal.addIndex({ fields: ['arrival_date'] });
-// Animal.addIndex({ fields: ['microchip_number'] });

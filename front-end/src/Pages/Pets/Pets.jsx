@@ -3,10 +3,12 @@ import axios from "axios";
 import PetCard from "../../Components/PetCard/PetCard";
 import { Grid } from "@mui/material";
 import './Pets.css';
+import { useTranslation } from "react-i18next";
 
 const SERVER_URL = "http://localhost:8080";
 
 const Pets = () => {
+    const { t } = useTranslation();  
     const [pets, setPets] = useState([]);
 
     useEffect(() => {
@@ -17,23 +19,23 @@ const Pets = () => {
 
     return (
         <div className="container">
-            <h3 className="page-title">Lista de animale disponibile pentru adopție</h3>
+            <h3 className="page-title">{t('adoption_status.available')}</h3>
             <Grid container spacing={3} justifyContent="center" className="grid-pets">
                 {pets.length > 0 ? (
                     pets.map((pet) => (
                         <Grid item key={pet.id}>
                             <PetCard
                                 name={pet.name}
-                                species={pet.species}
+                                species={t(`species.${pet.species}`)}  
                                 breed={pet.breed}
                                 age={pet.age}
-                                adoption_status={pet.adoption_status}
+                                adoption_status={t(`adoption_status.${pet.adoption_status}`)}  
                                 image={pet.image}
                             />
                         </Grid>
                     ))
                 ) : (
-                    <p>Momentan nu există animale disponibile.</p>
+                    <p className="p-not-available">{t('no_pets_available')}</p>
                 )}
             </Grid>
         </div>

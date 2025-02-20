@@ -18,9 +18,9 @@ app.use("/", indexRouter);
 
 const startServer = async () => {
     try {
-        console.log("Starting server...");
+        // console.log("Starting server...");
         await synchronizeDatabase();
-        console.log("Database synchronized successfully.");
+        // console.log("Database synchronized successfully.");
         app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
     } catch (err) {
         console.error("There was an error with the database connection: ", err);

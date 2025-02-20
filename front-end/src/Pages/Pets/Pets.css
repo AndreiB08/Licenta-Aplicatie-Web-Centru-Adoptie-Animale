@@ -1,21 +1,18 @@
-/* Asigură un margin top între navbar și textul principal */
 .page-title {
-    margin-top: 40px; /* Ajustează acest spațiu în funcție de cât de mult vrei să ridici textul */
+    margin-top: 40px;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #333;  /* Culoare pentru text */
+    color: #333;
 }
 
-/* Container pentru carduri pentru a păstra un layout curat */
 .container {
     width: 100%;
-    padding: 0 20px;  /* Margini laterale pentru a nu atinge marginile ecranului */
+    padding: 0 20px;  
     box-sizing: border-box;
-    margin-top: 20px;  /* Puțin spațiu deasupra pentru a separa de titlu */
+    margin-top: 20px;  
 }
 
-/* Stilizare pentru Grid (pentru alinierea cardurilor) */
 .MuiGrid-root {
     display: flex;
     justify-content: center;
@@ -24,28 +21,25 @@
     gap: 20px;
 }
 
-/* Adăugăm un background ușor pentru întreaga pagină */
 body {
-    background-color: #f4f6f9;  /* Culoare ușoară pentru fundal */
+    background-color: #f4f6f9;  
     margin: 0;
     font-family: 'Roboto', sans-serif;
 }
 
-/* Responsivitate - ajustăm pentru mobil */
-@media (max-width: 768px) {
-    .page-title {
-        font-size: 20px;  /* Micșorăm fontul pe mobil */
-    }
-
-    .container {
-        padding: 10px;  /* Reducem padding-ul pe mobil */
-    }
-
-    .MuiGrid-root {
-        flex-direction: column;  /* Pe mobil, cardurile vor fi afișate vertical */
-    }
-}
-
 .grid-pets {
     margin-top: 10px;
+}
+
+.p-not-available {
+    margin-top: 60px;
+    font-size: 20px;
+    text-align: center;
+    color: #ff6347;
+    font-weight: bold;  
+}
+
+.MuiGrid-root .MuiPaper-root:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
 }

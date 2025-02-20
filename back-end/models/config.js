@@ -6,13 +6,13 @@ export const db = new Sequelize ({
 });
 
 export const synchronizeDatabase = async () => {
-    console.log("Connecting to SQLite database...");
+    // console.log("Connecting to SQLite database...");
     try {
         await db.authenticate();
-        console.log("Connection to database has been established successfully.");
+        // console.log("Connection to database has been established successfully.");
 
         await db.sync({ force: false });
-        console.log("Database synchronized successfully.");
+        // console.log("Database synchronized successfully.");
     } catch (error) {
         console.error("Error connecting or synchronizing the database:", error);
     }

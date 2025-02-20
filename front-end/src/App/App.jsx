@@ -7,6 +7,8 @@ import Navbar from "../Components/NavBar/NavBar";
 import Footer from "../Components/Footer/Footer";
 import "./App.css"; // Import corect
 
+import AddAnimal from "../Pages/AddPet";
+
 const App = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -18,6 +20,7 @@ const App = () => {
       <div className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/admin/add-animal" element={<AddAnimal />} />
           <Route path="/pets" element={<Pets />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -11,7 +11,7 @@ const Navbar = () => {
                 <li><Link to="/pets">Pets</Link></li>
                 <li><Link to="/">Locations</Link></li>
                 <li><Link to="/">About us</Link></li>
-                <li><Link to="/">Contact</Link></li>
+                <li><Link to="/admin/add-animal">Contact</Link></li>
             </ul>
         </nav>
     );
