@@ -16,7 +16,16 @@ i18n.use(initReactI18next).init({
           adopted: "Adopted",
           reserved: "Reserved"
         },
-        no_pets_available: "Currently, there are no animals available."
+        no_pets_available: "Currently, there are no animals available.",
+        pet_adoption: "Pet Adoption",
+        home: "Home",
+        pets: "Pets",
+        location: "Location",
+        about_us: "About us",
+        contact: "Contact",
+        rights_reserved: "All rights reserved.",
+        privacy_policy: "Privacy Policy",
+        terms: "Terms and Conditions"
       },
     },
     ro: {
@@ -32,7 +41,16 @@ i18n.use(initReactI18next).init({
           adopted: "Adoptat",
           reserved: "Rezervat"
         },
-        no_pets_available: "Momentan nu există animale disponibile."
+        no_pets_available: "Momentan nu există animale disponibile.",
+        pet_adoption: "Adopție animale",
+        home: "Acasă",
+        pets: "Animale",
+        location: "Locație",
+        about_us: "Despre noi",
+        contact: "Contact",
+        rights_reserved: "Toate drepturile rezervate.",
+        privacy_policy: "Politica de confidențialitate",
+        terms: "Termeni și condiții"
       },
     },
   },
