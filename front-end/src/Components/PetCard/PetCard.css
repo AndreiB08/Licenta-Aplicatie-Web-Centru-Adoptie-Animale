@@ -35,9 +35,9 @@
     color: red !important;
 }
 
-.reserved-card {
+/* .reserved-card {
     background-color: #d3d3d3 !important;
-}
+} */
 
 .status-reserved {
     color: rgb(216, 193, 66) !important;
@@ -45,5 +45,5 @@
 
 .reserved-card .MuiCardMedia-root {
     filter: grayscale(100%) !important;
-    opacity: 0.7 !important;
+    opacity: 0.5 !important;
 }

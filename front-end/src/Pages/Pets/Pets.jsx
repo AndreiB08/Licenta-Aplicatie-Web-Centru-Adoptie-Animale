@@ -23,7 +23,7 @@ const Pets = () => {
             <Grid container spacing={3} justifyContent="center" className="grid-pets">
                 {pets.length > 0 ? (
                     pets
-                        // .filter((pet) => pet.adoption_status !== 'adopted')
+                        .filter((pet) => pet.adoption_status !== 'adopted')
                         .map((pet) => (
                         <Grid item key={pet.id}>
                             <PetCard

@@ -55,13 +55,17 @@ const PetCard = ({ name, species, breed, age, adoption_status, image }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ backgroundColor: "#f8f9fa"}}>
-        <Button
-        size="small"
-        variant="contained"
-        sx={{ backgroundColor: "#048A81", "&:hover": { backgroundColor: "#036F68" } }}>
-          {t("adopt")}
-        </Button>
-      </CardActions>
+      <Button 
+        size='small'
+        variant='contained'
+        sx={{ 
+          backgroundColor: "#048A81", 
+          "&:hover": { backgroundColor: "#036F68" },
+          visibility: adoption_status === 'reserved' ? "hidden" : "visible"
+        }}>
+        {t("more")}
+      </Button>
+    </CardActions>
     </Card>
   );
 };
