@@ -27,6 +27,7 @@ const Pets = () => {
                         .map((pet) => (
                         <Grid item key={pet.id}>
                             <PetCard
+                                id={pet.id}
                                 name={pet.name}
                                 species={t(`species.${pet.species}`)}  
                                 breed={pet.breed}

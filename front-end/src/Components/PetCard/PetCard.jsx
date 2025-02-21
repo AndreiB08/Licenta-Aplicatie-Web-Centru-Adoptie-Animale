@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "./PetCard.css";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 const getStatusClass = (status) => {
   switch (status) {
@@ -25,8 +26,19 @@ const getCardClass = (status) => {
   return status === 'reserved' ? 'pet-card reserved-card' : 'pet-card';
 }
 
-const PetCard = ({ name, species, breed, age, adoption_status, image }) => {
+const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
+
+  const navigate = useNavigate();
+
   const { t } =useTranslation();
+
+  const handleButtonClick = () => {
+    if (adoption_status === 'reserved' || adoption_status === 'adopted') {
+      navigate("*");
+    } else {
+      navigate(`/pets/${id}`);
+    }
+  };
 
   return (
     <Card sx={{ width: 300, margin: 2, boxShadow: 3 }} className={getCardClass(adoption_status)}>
@@ -62,7 +74,9 @@ const PetCard = ({ name, species, breed, age, adoption_status, image }) => {
           backgroundColor: "#048A81", 
           "&:hover": { backgroundColor: "#036F68" },
           visibility: adoption_status === 'reserved' ? "hidden" : "visible"
-        }}>
+        }}
+        onClick={handleButtonClick}
+        >
         {t("more")}
       </Button>
     </CardActions>
