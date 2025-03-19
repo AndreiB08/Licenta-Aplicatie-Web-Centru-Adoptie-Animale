@@ -24,22 +24,20 @@ body {
 
 .content-inceput {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 20px;
+    margin: 0 2vh;
 }
 
 .info {
-    max-width: 135vh;
-    max-height: 700px;
-
+    flex: 1;
+    padding-right: 10px;
 }
 
 .swiper-container {
-    max-width: 69vh;
-    max-height: 700px;
+    width: 70vh;
+    max-width: 100%;
     overflow: hidden;
     border-radius: 10px;
     flex-shrink: 0;
@@ -55,7 +53,7 @@ body {
 }
 
 .swiper-slide img {
-    width: 110%;
+    width: 100%;
     height: 100%;
     object-fit: cover;
 }
@@ -63,8 +61,8 @@ body {
 
 .content-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    grid-template-rows: auto;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
     justify-content: center;
     align-items: center;
     gap: 20px;
@@ -79,8 +77,30 @@ body {
   }
 
   .content-info img {
-    height: 240px;
+    width: 100%; /* Poți seta și o valoare fixă, ex. 250px */
+    height: 350px; /* Asigură o înălțime uniformă */
+    object-fit: cover; /* Taie excesul și umple spațiul */
     border-radius: 5px;
     display: block;
     margin: 0 auto;
-  }
+}
+
+
+  @media (max-width: 900px) {
+    .content-inceput {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .swiper-container {
+        width: 100%;
+    }
+
+    .info {
+        padding-right: 0;
+    }
+
+    .content-info {
+        padding: 20px;
+    }
+}

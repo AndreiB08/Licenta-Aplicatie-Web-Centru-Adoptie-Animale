@@ -4,14 +4,19 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css/bundle';
 import './Home.css';
 
-import poza1 from '../../Assets/caine1.jpeg';
-import poza2 from '../../Assets/caine2.jpg';
-import poza3 from '../../Assets/caine3.jpg';
-import poza4 from '../../Assets/caine4.jpg';
+import caine1 from '../../Assets/caine1.jpeg';
+import caine2 from '../../Assets/caine2.jpg';
+import caine3 from '../../Assets/caine3.jpg';
+import caine4 from '../../Assets/caine4.jpg';
+import hamster from '../../Assets/hamster.jpg';
+import iepure from '../../Assets/iepure.jpg';
+import papagal from '../../Assets/papagal.jpg';
+import pisica1 from '../../Assets/pisica1.jpg';
+import pisica2 from '../../Assets/pisica2.jpg';
 
 
 const Home = () => {
-  const images = [poza1, poza2, poza3, poza4];
+  const images = [caine1, pisica1, caine3, papagal];
 
   return (
     <div className="home">
@@ -21,10 +26,13 @@ const Home = () => {
 
         <div className="info">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus dicta odio ipsam velit, officiis nam, architecto autem quia magnam odit. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus, tenetur iure laborum enim aliquid quis qui iusto maiores, tempore quidem facilis consequatur voluptates eveniet molestiae incidunt, illo velit provident saepe. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam reiciendis nisi, magnam esse explicabo aliquam fugiat commodi, officiis, incidunt tempora sequi deserunt ratione odio. Rem debitis tenetur explicabo dolorum aut? Lorem ipsum dolor sit amet consectetur adipisicing elit. Est adipisci a, cum labore facilis eaque maiores praesentium molestias maxime id ipsa nemo facere perferendis asperiores eveniet consequatur quia sequi officiis!
+          În fiecare an, mii de animale ajung în adăposturi din cauza unor concepții greșite sau a abandonului. Animalele de rasă comună sunt adesea mai rezistente, mai sănătoase și mult mai ușor adaptabile decât cele de rasă pură. Acestea se adaptează rapid la medii noi, demonstrând loialitate și afecțiune față de noii lor stăpâni. Multe persoane tind să creadă că animalele de rasă pură sunt superioare, însă animalele comune aduc adesea numeroase avantaje, cum ar fi o imunitate mai puternică, un temperament echilibrat și o capacitate impresionantă de adaptare la diferite medii și situații de viață.
           </p><br />
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus dicta odio ipsam velit, officiis nam, architecto autem quia magnam odit. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus, tenetur iure laborum enim aliquid quis qui iusto maiores, tempore quidem facilis consequatur voluptates eveniet molestiae incidunt, illo velit provident saepe. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam reiciendis nisi, magnam esse explicabo aliquam fugiat commodi, officiis, incidunt tempora sequi deserunt ratione odio. Rem debitis tenetur explicabo dolorum aut? Lorem ipsum dolor sit amet consectetur adipisicing elit. Est adipisci a, cum labore facilis eaque maiores praesentium molestias maxime id ipsa nemo facere perferendis asperiores eveniet consequatur quia sequi officiis!
+          Adăpostul nostru este dedicat salvării și îngrijirii animalelor abandonate, rănite sau abuzate, indiferent de specie. Considerăm că fiecare animal merită o șansă la o viață mai bună și facem tot posibilul pentru a le oferi dragostea, îngrijirea și atenția necesare. În prezent, găzduim sute de animale din diferite specii, inclusiv câini, pisici, iepuri, păsări și alte animale domestice, și lucrăm constant pentru a le asigura condiții excelente, tratamente medicale specializate și oportunități reale de adopție responsabilă. Echipa noastră dedicată este formată din profesioniști și voluntari pasionați care depun toate eforturile pentru ca animalele să fie recuperate fizic și emoțional.
+          </p><br />
+          <p>
+          Misiunea noastră se extinde dincolo de simpla îngrijire a animalelor. Organizăm periodic evenimente educaționale pentru comunitate, promovând responsabilitatea față de animale și importanța adopției responsabile. Aceste evenimente includ ateliere interactive, sesiuni informative și activități pentru copii și adulți, menite să educe și să sensibilizeze publicul în privința nevoilor animalelor și a beneficiilor unei relații responsabile între oameni și animale. De asemenea, oferim programe ample de voluntariat care permit iubitorilor de animale să se implice activ în îngrijirea, socializarea și recuperarea animalelor noastre, oferindu-le șansa de a contribui direct la îmbunătățirea vieții acestora. Voluntarii noștri sunt parte integrantă a succesului nostru și sunt întotdeauna bineveniți să se alăture eforturilor noastre.
           </p><br />
         </div>
 
@@ -35,7 +43,7 @@ const Home = () => {
             slidesPerView={1}
             slidesPerGroup={1}
             loopAdditionalSlides={1}
-            autoplay={{ delay: 6000 }}
+            autoplay={{ delay: 4000 }}
             speed={4000}
             loop={true}
             allowTouchMove={false}
@@ -55,30 +63,30 @@ const Home = () => {
       </div>
 
       <div className="content-info">
-        <img src={poza1} />
+        <img src={hamster} />
         <div>
           <h2>Salvare</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis debitis aliquid qui alias ipsam facere, eum tenetur iusto nisi quaerat totam dolor sint laudantium, distinctio et esse odio voluptas harum.</p>
+          <p>Ne dedicăm salvării animalelor care se află în suferință. Prin eforturi constante, intervenim pentru a le oferi îngrijire medicală, adăpost și, mai ales, o nouă șansă la o viață sigură și fericită.</p>
           <a href="#">Află mai multe →</a>
         </div>
-        <img src={poza2} />
+        <img src={pisica2} />
         <div>
           <h2>Îngrijire</h2>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos soluta inventore maxime, vero enim cum accusantium rem aliquam. Nulla, repudiandae. Amet magnam error reprehenderit, rerum qui repudiandae fugiat? Optio, velit.</p>
+          <p>Punem la dispoziție un refugiu sigur și plin de căldură pentru animalele aflate în nevoie, asigurându-le îngrijire medicală adecvată, hrană nutritivă și multă atenție din partea echipei noastre dedicate. Fiecare animăluț primește afecțiunea și grija de care are nevoie pentru a se recupera fizic și emoțional, astfel încât să fie pregătit să își găsească o familie iubitoare care să îi ofere un cămin permanent.</p>
           <a href="#">Află mai multe →</a>
         </div>
         <div>
           <h2>Adopție</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio accusamus vel laboriosam, nam sapiente pariatur? Totam, autem dolor doloribus, maiores velit consectetur ea ipsam minima debitis ab tempore sint iure.</p>
+          <p>Ne dedicăm cu pasiune și perseverență misiunii de a găsi un cămin sigur și iubitor pentru fiecare animal salvat. Credem că fiecare merită o a doua șansă, așa că depunem toate eforturile pentru a-i ajuta să își găsească familii care să le ofere afecțiune, stabilitate și grijă pe tot parcursul vieții.</p>
           <a href="#">Află mai multe →</a>
         </div>
-        <img src={poza3} />
+        <img src={caine2} />
         <div>
           <h2>Educare</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed reprehenderit mollitia aliquam ullam delectus voluptate ad repellendus veritatis perferendis impedit, culpa reiciendis voluptatum voluptates nostrum minima expedita aspernatur! Labore, quo.</p>
+          <p>Ne dedicăm activ educării și responsabilizării comunității în ceea ce privește protecția și bunăstarea animalelor. Prin campanii de conștientizare, evenimente educative și colaborări cu instituții și organizații locale, încercăm să schimbăm mentalități și să promovăm respectul, compasiunea și responsabilitatea față de toate ființele necuvântătoare.</p>
           <a href="#">Află mai multe →</a>
         </div>
-        <img src={poza4} />
+        <img src={iepure} />
       </div>
 
     </div>

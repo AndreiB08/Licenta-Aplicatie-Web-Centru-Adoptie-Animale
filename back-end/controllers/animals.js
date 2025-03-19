@@ -1,4 +1,5 @@
 import { Animal } from "../models/animals.js";
+import { validate as isUUID } from "uuid";
 
 const getAnimals = async (req, res) => {
     try {
@@ -16,8 +17,8 @@ const getAnimals = async (req, res) => {
 
 const getAnimalById = async (req, res) => {
     try {
-        const animalId = parseInt(req.params.id, 10);
-        if (isNaN(animalId) || animalId <= 0) {
+        const animalId = req.params.id;
+        if (!isUUID(animalId)) {
             return res.status(400).send({ message: "Invalid animal ID" });
         }
 

@@ -3,9 +3,9 @@ import { db } from "./config.js";
 
 export const Animal = db.define("animal", {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: DataTypes.UUIDV4
     },
     name: {
         type: DataTypes.STRING,

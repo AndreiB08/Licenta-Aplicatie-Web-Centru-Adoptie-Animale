@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../Pages/Home/Home";
 import Pets from  "../Pages/Pets/Pets"
 import PetDetails from  "../Pages/PetDetails/PetDetails"
+// import Login from "../Pages/Login/Login";
+// import Dashboard from "../Pages/Dashboard/Dashboard";
 import NotFound from "../Pages/NotFound/NotFound";
 import Navbar from "../Components/NavBar/NavBar";
 import Footer from "../Components/Footer/Footer";
@@ -21,6 +23,8 @@ const App = () => {
       <div className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
+          {/* <Route path="/login" element={<Login />} /> */}
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/admin/add-animal" element={<AddAnimal />} />
           <Route path="/pets" element={<Pets />} />
           <Route path="/pets/:id" element={<PetDetails />} />
