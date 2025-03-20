@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { db } from "./config.js";
 
-export const Animal = db.define("animal", {
+export const Animal = db.define("animals", {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -27,11 +27,11 @@ export const Animal = db.define("animal", {
         }
     },
     gender: {
-        type: DataTypes.ENUM('male', 'female'),
+        type: DataTypes.ENUM("male", "female"),
         allowNull: false
     },
     size: {
-        type: DataTypes.ENUM('small', 'medium', 'large'),
+        type: DataTypes.ENUM("small", "medium", "large"),
         allowNull: false
     },
     color: {
@@ -39,7 +39,7 @@ export const Animal = db.define("animal", {
         allowNull: true
     },
     health_status: {
-        type: DataTypes.ENUM('healthy', 'sick', 'under treatment'),
+        type: DataTypes.ENUM("healthy", "sick", "under treatment"),
         allowNull: false
     },
     vaccinated: {
@@ -53,9 +53,9 @@ export const Animal = db.define("animal", {
         defaultValue: false
     },
     adoption_status: {
-        type: DataTypes.ENUM('available', 'adopted', 'reserved'),
+        type: DataTypes.ENUM("available", "adopted", "reserved"),
         allowNull: false,
-        defaultValue: 'available'
+        defaultValue: "available"
     },
     arrival_date: {
         type: DataTypes.DATEONLY,
@@ -86,9 +86,9 @@ export const Animal = db.define("animal", {
 }, {
     timestamps: true,
     indexes: [
-        { fields: ['species'] },
-        { fields: ['adoption_status'] },
-        { fields: ['arrival_date'] },
-        { fields: ['microchip_number'], unique: true }
+        { fields: ["species"] },
+        { fields: ["adoption_status"] },
+        { fields: ["arrival_date"] },
+        { fields: ["microchip_number"], unique: true }
     ]
 });

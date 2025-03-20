@@ -1,19 +1,20 @@
-// import { Employee } from "./employee.js";
+import { Employee } from "./employees.js";
 import { Animal } from "./animals.js";
 
 export const runSeed = async () => {
     try {
-        // const employeesCount = await Employee.count();
-        // if (employeesCount === 0) {
-        //     await Employee.create({
-        //         first_name: "Andrei",
-        //         last_name: "Buzagiu",
-        //         email: "andrei.buzagiu@gmail.com",
-        //         password: "admin123",
-        //         role: "admin"
-        //     });
-        //     console.log("✅ Seeded Employee successfully.");
-        // }
+        const employeesCount = await Employee.count();
+        if (employeesCount === 0) {
+            await Employee.create({
+                first_name: "Andrei",
+                last_name: "Buzagiu",
+                email: "andrei.buzagiu@gmail.com",
+                password: "admin123",
+                phone_number: "0756056577",
+                role: "admin"
+            });
+            console.log("Admin user created successfully.");
+        }
 
         const animalsCount = await Animal.count();
         if (animalsCount === 0) {
@@ -87,10 +88,10 @@ export const runSeed = async () => {
                     microchip_number: null
                 }
             ]);
-            console.log("✅ Seeded Animals successfully.");
+            console.log("Animals added successfully.");
         }
 
     } catch (err) {
-        console.error("❌ Error seeding database:", err);
+        console.error("Error in seeding data:", err);
     }
 };

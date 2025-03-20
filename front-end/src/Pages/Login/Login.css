@@ -1,48 +1,88 @@
-/* .container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    background: #f9f9f9;
-}
-
-.page-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.login-form {
+.login-page {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-input {
+.welcome-title {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #048A81;
+    margin-bottom: 30px;
+}
+
+.login-box {
+    background: white;
+    padding: 4rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background: #0056b3;
-}
-
-.error {
-    color: red;
+.input-group label {
+    display: block;
     font-weight: bold;
     margin-bottom: 10px;
-} */
+    color: #555;
+    font-size: 16px;
+    text-align: left;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.input-group input {
+    width: 350px;
+    padding: 14px;
+    font-size: 18px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+    text-align: left;
+}
+
+.input-group input:focus {
+    border-color: #2575FC;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(37, 117, 252, 0.5);
+}
+
+.login-button {
+    width: 100%;
+    background: #048A81;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+    margin-top: 20px;
+}
+
+.login-button:hover {
+    background: #036F68;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}

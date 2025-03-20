@@ -1,27 +1,34 @@
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
-// const SECRET_KEY = "my_secret_key";
+dotenv.config();
+const SECRET_KEY = process.env.SECRET_KEY;
+console.log("SECRET_KEY in authMiddleware:", SECRET_KEY); // 🔥 Adaugă acest log pentru debug
 
-// const authenticate = (req, res, next) => {
-//     const token = req.header("Authorization");
+const authenticate = (req, res, next) => {
+    try {
+        const authHeader = req.headers.authorization;
+        console.log("Received authHeader:", authHeader); // 🔍 Debugging
 
-//     if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Acces denied. No token provided." });
+        }
 
-//     try {
-//         const decoded = jwt.verify(token.replace("Bearer ", ""), SECRET_KEY);
-//         req.user = decoded;
-//         next();
-//     } catch (error) {
-//         res.status(401).json({ message: "Invalid token" });
-//     }
-// };
+        const token = authHeader.split(" ")[1].trim();
+        console.log("Extracted token:", token); // 🔍 Debugging
 
-// const isAdmin = (req, res, next) => {
-//     if (req.user.role !== "admin") return res.status(403).json({ message: "Access denied. Admins only." });
-//     next();
-// };
+        const decoded = jwt.verify(token, SECRET_KEY);
+        console.log("Decoded token:", decoded); // 🔍 Debugging
 
-// export {
-//     authenticate,
-//     isAdmin
-// }
+
+        req.employee = decoded;
+        next();
+    } catch (error) {
+        console.error("Authentification error: ", error);
+        res.status(403).json({ message: "Invalid or expired token." });
+    }
+};
+
+export {
+    authenticate,
+}

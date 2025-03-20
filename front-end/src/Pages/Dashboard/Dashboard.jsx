@@ -1,48 +1,65 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import "./Dashboard.css";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// const SERVER_URL = "http://localhost:8080";
+const SERVER_URL = "http://localhost:8080/employees/me"; // Modifică dacă ai un endpoint diferit
 
-// const Dashboard = () => {
-//     const navigate = useNavigate();
-//     const [user, setUser] = useState(null);
-//     const [error, setError] = useState(null);
+const Dashboard = () => {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-//     useEffect(() => {
-//         const token = localStorage.getItem("token");
-//         if (!token) {
-//             navigate("/login");
-//             return;
-//         }
+    useEffect(() => {
+        const token = localStorage.getItem("token");
 
-//         axios.get(`${SERVER_URL}/employees/me`, {
-//             headers: { Authorization: `Bearer ${token}` }
-//         })
-//         .then((res) => setUser(res.data))
-//         .catch(() => {
-//             setError("Session expired. Please log in again.");
-//             localStorage.removeItem("token");
-//             navigate("/login");
-//         });
-//     }, [navigate]);
+        if (!token) {
+            navigate("/login");
+            return;
+        }
 
-//     const handleLogout = () => {
-//         localStorage.removeItem("token");
-//         navigate("/login");
-//     };
+        fetch(SERVER_URL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.message === "Unauthorized") {
+                localStorage.removeItem("token");
+                navigate("/login");
+            } else {
+                setUser(data);
+            }
+        })
+        .catch(err => setError("Failed to load user data"))
+        .finally(() => setLoading(false));
+    }, [navigate]);
 
-//     if (error) return <p className="error">{error}</p>;
-//     if (!user) return <p className="loading">Loading...</p>;
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
 
-//     return (
-//         <div className="dashboard-container">
-//             <h2>Welcome, {user.first_name}!</h2>
-//             <p><strong>Role:</strong> {user.role}</p>
-//             <button onClick={handleLogout} className="logout-button">Logout</button>
-//         </div>
-//     );
-// };
+    if (loading) return <p className="loading">Loading...</p>;
+    if (error) return <p className="error">{error}</p>;
 
-// export default Dashboard;
+    return (
+        <div className="dashboard-container">
+            <div className="dashboard-header">
+                <h2>Welcome, {user?.first_name} {user?.last_name}!</h2>
+                <button className="logout-button" onClick={handleLogout}>Logout</button>
+            </div>
+
+            <div className="dashboard-content">
+                <h3>Your Profile</h3>
+                <p><strong>Email:</strong> {user?.email}</p>
+                <p><strong>Phone:</strong> {user?.phone_number}</p>
+                <p><strong>Role:</strong> {user?.role}</p>
+            </div>
+        </div>
+    );
+};
+
+export default Dashboard;

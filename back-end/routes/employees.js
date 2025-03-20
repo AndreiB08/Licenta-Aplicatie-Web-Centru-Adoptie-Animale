@@ -1,24 +1,18 @@
-// import express from "express";
-// import * as employeeController from "../controllers/employees.js";
-// import { authenticate } from "../middleware/authMiddleware.js";
+import express from "express";
+import { validate as isUUID } from "uuid";
+import * as employeeController from "../controllers/employees.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
-// const router = express.Router();
+const router = express.Router();
 
+router.param("id", (req, res, next, id) => {
+    if (!isUUID(id)) {
+        return res.status(400).json({ message: "Invalid ID format" });
+    }
+    next();
+});
 
+router.post("/login", employeeController.login);
+router.get("/me", authenticate, employeeController.getEmployee);
 
-// router.get("/", authenticate, employeeController.getAllEmployees);
-
-// router.get("/:id", authenticate, employeeController.getEmployeeById);
-// router.get("/me", authenticate, getLoggedInUser);
-
-
-// router.post("/", authenticate, isAdmin, employeeController.createEmployee);
-// router.post("/login", employeeController.login);
-// router.post("/register", authenticate, employeeController.register);
-
-
-// router.put("/:id", authenticate, isAdmin, employeeController.updateEmployee);
-
-// router.delete("/:id", authenticate, employeeController.deleteEmployee);
-
-// export { router };
+export { router };
