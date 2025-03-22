@@ -47,12 +47,62 @@ const getEmployee = async (req, res) => {
 
         res.status(200).json(employee);
     } catch (error) {
-        console.error("Error fetching authenticated user:", error);
+        console.error("Error fetching authenticated employee:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
 
+const getAllEmployees = async (req, res) => {
+    try {
+        const employees = await Employee.findAll();
+        res.json({ employees });
+    } catch {
+        console.error("Error fetching employees: ", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const updateEmployee = async (req, res) => {
+  const { id } = req.params;
+  const {
+    first_name,
+    last_name,
+    email,
+    phone_number,
+    role,
+    password
+  } = req.body;
+
+  try {
+    const employee = await Employee.findByPk(id);
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    employee.first_name = first_name;
+    employee.last_name = last_name;
+    employee.email = email;
+    employee.phone_number = phone_number;
+    employee.role = role;
+
+    if (password && password.trim() !== "") {
+      const hashed = await bcrypt.hash(password, 10);
+      employee.password = hashed;
+    }
+
+    await employee.save();
+
+    res.json({ message: "Employee updated succesfully!.", employee });
+  } catch (err) {
+    console.error("Error fetching employee: ", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 export {
     login,
-    getEmployee
+    getEmployee,
+    getAllEmployees,
+    updateEmployee
 }

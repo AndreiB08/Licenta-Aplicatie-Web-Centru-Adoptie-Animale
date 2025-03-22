@@ -5,14 +5,24 @@ export const runSeed = async () => {
     try {
         const employeesCount = await Employee.count();
         if (employeesCount === 0) {
-            await Employee.create({
+            await Employee.bulkCreate([
+            {
                 first_name: "Andrei",
                 last_name: "Buzagiu",
                 email: "andrei.buzagiu@gmail.com",
                 password: "admin123",
                 phone_number: "0756056577",
                 role: "admin"
-            });
+            },
+            {
+                first_name: "Andrei",
+                last_name: "Buzagiu",
+                email: "andrei.test@gmail.com",
+                password: "staff123",
+                phone_number: "0756056567",
+                role: "staff"
+            }
+        ], { individualHooks: true });
             console.log("Admin user created successfully.");
         }
 

@@ -30,7 +30,8 @@ const Login = () => {
             }
 
             localStorage.setItem("token", data.token);
-            navigate("/dashboard");
+            localStorage.setItem("role", data.employee.role);
+            navigate("/admin/dashboard");
 
         } catch (err) {
             setError(err.message);

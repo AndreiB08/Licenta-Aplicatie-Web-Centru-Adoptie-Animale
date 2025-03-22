@@ -22,28 +22,20 @@
     background-color: #f8f9fa;
 }
 
+/* CULORI STATUS */
 .status {
     text-align: left;
     padding-top: 10px;
 }
 
 .status-available {
-    color: #008000 !important;
+    color: #008000; /* verde */
 }
 
 .status-adopted {
-    color: #ff0000 !important;
+    color: #ff0000; /* roșu */
 }
-
-/* .reserved-card {
-    background-color: #d3d3d3 !important;
-} */
 
 .status-reserved {
-    color: #d8c142 !important;
-}
-
-.reserved-card .MuiCardMedia-root {
-    filter: grayscale(100%) !important;
-    opacity: 0.5 !important;
+    color: #d8c142; /* galben */
 }

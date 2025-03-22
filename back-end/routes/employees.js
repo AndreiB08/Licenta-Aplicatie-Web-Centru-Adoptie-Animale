@@ -13,6 +13,8 @@ router.param("id", (req, res, next, id) => {
 });
 
 router.post("/login", employeeController.login);
+router.get("/", employeeController.getAllEmployees);
 router.get("/me", authenticate, employeeController.getEmployee);
+router.put("/:id", employeeController.updateEmployee);
 
 export { router };

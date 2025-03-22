@@ -1,0 +1,59 @@
+.page-title {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    padding: 0 20px;  
+    box-sizing: border-box;
+    margin-top: 20px;  
+}
+
+.MuiGrid-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+body {
+    background-color: #f4f6f9;  
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.grid-pets {
+    margin-top: 10px;
+}
+
+.MuiPagination-root {
+    margin-top: 30px;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top:  20px;
+    margin-bottom: 30px;
+  }
+  
+
+.p-not-available {
+    margin-top: 60px;
+    font-size: 20px;
+    text-align: center;
+    color: #ff6347;
+    font-weight: bold;  
+}
+
+.MuiGrid-root .MuiPaper-root:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}

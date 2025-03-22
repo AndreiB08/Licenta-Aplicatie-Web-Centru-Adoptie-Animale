@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css/bundle';
@@ -17,6 +18,14 @@ import pisica2 from '../../Assets/pisica2.jpg';
 
 const Home = () => {
   const images = [caine1, pisica1, caine3, papagal];
+  const navigate = useNavigate();
+  const role = localStorage.getItem("role");
+
+  useEffect(() => {
+    if (role === "admin") {
+      navigate("/dashboard");
+    }
+  }, [role, navigate]);
 
   return (
     <div className="home">
