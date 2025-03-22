@@ -25,6 +25,30 @@
     color: white;
   }
 
+  .add-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .add-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #048A81;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+  }
+  
+  .add-btn:hover {
+    background-color: #036f68;
+  }
+  
+  
+
   .edit-btn {
     margin-right: 20px;
     background-color: #46b533;

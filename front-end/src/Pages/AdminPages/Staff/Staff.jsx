@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import EditStaffModal from "../../../Components/EditStaffModal/EditStaffModal";
+import EditStaffModal from "../../../Components/StaffModal/StaffModal";
 import './Staff.css';
 
 const SERVER_URL = "http://localhost:8080";
@@ -17,6 +17,7 @@ const Staff = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const navigate = useNavigate();
+  const currentUserId = localStorage.getItem("id");
 
   useEffect(() => {
     const role = localStorage.getItem("role");
@@ -42,14 +43,27 @@ const Staff = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirm = window.confirm("Sigur vrei să ștergi acest angajat?");
-    if (!confirm) return;
-
     try {
-      await axios.delete(`${SERVER_URL}/employees/${id}`);
-      setEmployees((prev) => prev.filter(emp => emp.id !== id));
+      const token = localStorage.getItem("token");
+
+      if (id.toString() === currentUserId?.toString()) {
+        alert("Nu poți șterge propriul cont.");
+        return;
+      }
+
+      const confirm = window.confirm("Sigur vrei să ștergi acest angajat?");
+      if (!confirm) return;
+
+      await axios.delete(`${SERVER_URL}/employees/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      fetchEmployees();
     } catch (err) {
       console.error("Eroare la ștergere:", err);
+      alert("Eroare la ștergere.");
     }
   };
 
@@ -88,12 +102,11 @@ const Staff = () => {
     setSelectedEmployee(emp);
     setOpenModal(true);
   };
-  
+
   const closeEditModal = () => {
     setSelectedEmployee(null);
     setOpenModal(false);
   };
-  
 
   const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -101,6 +114,18 @@ const Staff = () => {
   return (
     <div className="staff-container">
       <h2>Gestionare angajați</h2>
+
+      <div className="add-btn-wrapper">
+        <button
+          className="add-btn"
+          onClick={() => {
+            setSelectedEmployee(null);
+            setOpenModal(true);
+          }}
+        >
+          + Adaugă angajat
+        </button>
+      </div>
 
       <div className="filters">
         <input
@@ -146,7 +171,13 @@ const Staff = () => {
                   <td>{emp.role}</td>
                   <td>
                     <button onClick={() => openEditModal(emp)} className="edit-btn">Editează</button>
-                    <button onClick={() => handleDelete(emp.id)} className="delete-btn">Șterge</button>
+                    <button
+                      style={{ display: emp.id.toString() === currentUserId?.toString() ? "hide" : "inline-block" }}
+                      onClick={() => handleDelete(emp.id)}
+                      className="delete-btn"
+                    >
+                      Șterge
+                    </button>
                   </td>
                 </tr>
               ))}

@@ -1,7 +1,16 @@
+
 import React, { useState, useEffect } from "react";
 import {
-  Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, Button, Select, MenuItem, InputLabel, FormControl
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from "@mui/material";
 import axios from "axios";
 
@@ -27,35 +36,86 @@ const EditStaffModal = ({ open, handleClose, employee, onUpdated }) => {
         role: employee.role || "",
         password: ""
       });
+    } else {
+      setForm({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        role: "",
+        password: ""
+      });
     }
-  }, [employee]);
+  }, [open, employee]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleCloseAndReset = () => {
+    handleClose();
+    setForm({
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_number: "",
+      role: "",
+      password: ""
+    });
+  };
+
   const handleSubmit = async () => {
     try {
-      await axios.put(`${SERVER_URL}/employees/${employee.id}`, form);
+      const token = localStorage.getItem("token");
+      const dataToSend = { ...form };
+
+      if (!dataToSend.password || dataToSend.password.trim() === "") {
+        delete dataToSend.password;
+      }
+
+      if (employee) {
+        await axios.put(`${SERVER_URL}/employees/${employee.id}`, dataToSend, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+      } else {
+        await axios.post(`${SERVER_URL}/employees`, dataToSend, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+      }
+
       onUpdated();
-      handleClose();
+      handleCloseAndReset();
     } catch (err) {
       console.error("Eroare la salvare:", err);
-      alert("Eroare la actualizarea angajatului.");
+      alert("Eroare la salvare angajat.");
     }
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Editează angajat</DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1, minWidth: 400, height: 500 }}>
+    <Dialog open={open} onClose={handleCloseAndReset}>
+      <DialogTitle>{employee ? "Editează angajat" : "Adaugă angajat"}</DialogTitle>
+      <DialogContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          mt: 1,
+          minWidth: 400,
+          height: 500,
+        }}
+      >
         <TextField
           label="Prenume"
           name="first_name"
           value={form.first_name}
           onChange={handleChange}
-          sx={{ mt: 2 }}
         />
         <TextField
           label="Nume"
@@ -88,7 +148,7 @@ const EditStaffModal = ({ open, handleClose, employee, onUpdated }) => {
           </Select>
         </FormControl>
         <TextField
-          label="Parolă nouă"
+          label={employee ? "Parolă nouă (opțional)" : "Parolă"}
           name="password"
           type="password"
           value={form.password}
@@ -96,8 +156,10 @@ const EditStaffModal = ({ open, handleClose, employee, onUpdated }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Anulează</Button>
-        <Button variant="contained" onClick={handleSubmit}>Salvează</Button>
+        <Button onClick={handleCloseAndReset}>Anulează</Button>
+        <Button variant="contained" onClick={handleSubmit}>
+          Salvează
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -15,6 +15,9 @@ router.param("id", (req, res, next, id) => {
 router.post("/login", employeeController.login);
 router.get("/", employeeController.getAllEmployees);
 router.get("/me", authenticate, employeeController.getEmployee);
-router.put("/:id", employeeController.updateEmployee);
+router.put("/me", authenticate, employeeController.updateEmployee);
+router.put("/:id", authenticate, employeeController.updateEmployee);
+router.delete("/:id", authenticate, employeeController.deleteEmployee);
+
 
 export { router };

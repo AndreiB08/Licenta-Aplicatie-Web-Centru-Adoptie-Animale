@@ -5,13 +5,15 @@ import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
     const { t } = useTranslation();
-    const role = localStorage.getItem("role");
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
+        localStorage.removeItem("isAuthenticated");
         navigate("/");
+        window.location.reload();
     };
 
     return (
@@ -20,26 +22,27 @@ const Navbar = () => {
                 <Link to="/">{t('pet_adoption')}</Link>
             </div>
             <ul className="navbar-links">
-                {role === "admin" ? (
+                {isAuthenticated ? (
                     <>
                         <li><Link to="/admin/dashboard">{t('dashboard')}</Link></li>
                         <li><Link to="/admin/pets">{t('manage_pets')}</Link></li>
                         <li><Link to="/admin/staff">{t('manage_users')}</Link></li>
+                        <li><Link to="/admin/account">Editează cont</Link></li>
                         <li>
-                    <button
-                        onClick={handleLogout}
-                        style={{
-                            background: "none",
-                            border: "none",
-                            color: "white",
-                            fontSize: "20px",
-                            fontWeight: "bold",
-                            cursor: "pointer"
-                        }}
-                    >
-                        {t('logout')}
-                    </button>
-                </li>
+                            <button
+                                onClick={handleLogout}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    color: "white",
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                    cursor: "pointer"
+                                }}
+                            >
+                                {t('logout')}
+                            </button>
+                        </li>
                     </>
                 ) : (
                     <>
