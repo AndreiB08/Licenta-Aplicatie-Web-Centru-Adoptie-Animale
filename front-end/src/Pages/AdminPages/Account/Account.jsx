@@ -15,6 +15,7 @@ const Account = () => {
     password: ""
   });
 
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,7 +29,6 @@ const Account = () => {
 
       const data = res.data;
 
-      // ✅ salvează și ID-ul în localStorage
       localStorage.setItem("id", data.id);
 
       setForm({
@@ -57,6 +57,32 @@ const Account = () => {
     setLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
+    const newErrors = {};
+
+    if (!form.first_name.trim()) newErrors.first_name = "Prenumele este obligatoriu.";
+    if (!form.last_name.trim()) newErrors.last_name = "Numele este obligatoriu.";
+
+    if (!form.email.trim()) {
+      newErrors.email = "Emailul este obligatoriu.";
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      newErrors.email = "Format email invalid.";
+    }
+
+    if (!form.phone_number.trim()) {
+      newErrors.phone_number = "Telefonul este obligatoriu.";
+    } else if (!/^[0-9+\-()\s]*$/.test(form.phone_number)) {
+      newErrors.phone_number = "Număr de telefon invalid.";
+    }
+
+    if (form.password && form.password.length < 6) {
+      newErrors.password = "Parola trebuie să aibă cel puțin 6 caractere.";
+    }
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -66,7 +92,7 @@ const Account = () => {
         delete body.password;
       }
 
-      const res = await axios.put(`${SERVER_URL}/employees/me`, body, {
+      await axios.put(`${SERVER_URL}/employees/me`, body, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -74,18 +100,12 @@ const Account = () => {
       });
 
       setSuccessMessage("Modificările au fost salvate cu succes!");
-
-      // ✅ actualizează datele local după salvare
       await fetchProfile();
     } catch (err) {
       console.error("Eroare la salvare:", err);
-
-      if (err.response && err.response.data) {
-        console.log("Mesaj de la server:", err.response.data);
-        setErrorMessage(err.response.data.message || "Eroare necunoscută.");
-      } else {
-        setErrorMessage("Eroare de rețea sau server.");
-      }
+      setErrorMessage(
+        err.response?.data?.message || "Eroare de rețea sau server."
+      );
     } finally {
       setLoading(false);
     }
@@ -103,24 +123,32 @@ const Account = () => {
           name="first_name"
           value={form.first_name}
           onChange={handleChange}
+          error={!!errors.first_name}
+          helperText={errors.first_name}
         />
         <TextField
           label="Nume"
           name="last_name"
           value={form.last_name}
           onChange={handleChange}
+          error={!!errors.last_name}
+          helperText={errors.last_name}
         />
         <TextField
           label="Email"
           name="email"
           value={form.email}
           onChange={handleChange}
+          error={!!errors.email}
+          helperText={errors.email}
         />
         <TextField
           label="Telefon"
           name="phone_number"
           value={form.phone_number}
           onChange={handleChange}
+          error={!!errors.phone_number}
+          helperText={errors.phone_number}
         />
         <TextField
           label="Parolă nouă (opțional)"
@@ -128,6 +156,8 @@ const Account = () => {
           type="password"
           value={form.password}
           onChange={handleChange}
+          error={!!errors.password}
+          helperText={errors.password}
         />
         <Button variant="contained" onClick={handleSubmit} disabled={loading}>
           {loading ? "Salvare..." : "Salvează modificările"}

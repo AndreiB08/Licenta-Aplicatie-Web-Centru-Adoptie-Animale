@@ -114,7 +114,7 @@ export const runSeed = async () => {
                     microchip_number: "123456789012359"
                 },
                 {
-                    name: "Tigrese",
+                    name: "Tigress",
                     species: "Cat",
                     breed: "Bengal",
                     age: 2,
