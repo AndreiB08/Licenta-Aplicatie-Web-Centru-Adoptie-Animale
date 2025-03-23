@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { formatAnimalData, validateAnimalData } from "../../../utils/formatHelpers";
 import "./PetEdit.css";
 
 const SERVER_URL = "http://localhost:8080/pets";
@@ -38,60 +39,17 @@ const PetEdit = () => {
     }
   };
 
-  const capitalizeWords = (str = "") =>
-    str
-      .trim()
-      .toLowerCase()
-      .split(" ")
-      .filter(Boolean)
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-  const capitalizeFirstWordOnly = (str = "") => {
-    const trimmed = str.trimStart();
-    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newErrors = {};
-    const isEmpty = (value) => !value || value.trim() === "";
-
-    if (isEmpty(pet.name)) newErrors.name = "Numele este obligatoriu.";
-    if (isEmpty(pet.species)) newErrors.species = "Specia este obligatorie.";
-    if (isEmpty(pet.breed)) newErrors.breed = "Rasa este obligatorie.";
-    if (!pet.age) newErrors.age = "Vârsta este obligatorie.";
-    if (isEmpty(pet.gender)) newErrors.gender = "Genul este obligatoriu.";
-    if (isEmpty(pet.size)) newErrors.size = "Dimensiunea este obligatorie.";
-    if (isEmpty(pet.color)) newErrors.color = "Culoarea este obligatorie.";
-    if (isEmpty(pet.health_status)) newErrors.health_status = "Starea medicală este obligatorie.";
-    if (isEmpty(pet.adoption_status)) newErrors.adoption_status = "Statusul de adopție este obligatoriu.";
-    if (isEmpty(pet.arrival_date)) newErrors.arrival_date = "Data sosirii este obligatorie.";
-    if (isEmpty(pet.image)) newErrors.image = "URL-ul imaginii este obligatoriu.";
-
-    if (
-      pet.microchip_number &&
-      !/^\d{15}$/.test(pet.microchip_number.trim())
-    ) {
-      newErrors.microchip_number = "Numărul de microcip trebuie să aibă exact 15 cifre.";
-    }
-
+    const newErrors = validateAnimalData(pet);
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     try {
-      const formattedPet = {
-        ...pet,
-        name: capitalizeWords(pet.name),
-        species: capitalizeWords(pet.species),
-        breed: capitalizeWords(pet.breed),
-        color: capitalizeFirstWordOnly(pet.color),
-        notes: capitalizeFirstWordOnly(pet.notes),
-        microchip_number: pet.microchip_number?.trim() === "" ? null : pet.microchip_number,
-      };
+      const formattedPet = formatAnimalData(pet);
 
       await axios.put(`${SERVER_URL}/${id}`, formattedPet);
       alert("Animalul a fost actualizat cu succes.");

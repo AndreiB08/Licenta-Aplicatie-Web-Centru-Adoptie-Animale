@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, Button, Select, MenuItem, InputLabel, FormControl, FormHelperText
 } from "@mui/material";
-import axios from "axios";
+import { formatAnimalData, validateAnimalData } from "../../utils/formatHelpers";
 
 const SERVER_URL = "http://localhost:8080";
 
@@ -33,79 +34,28 @@ const AddPetModal = ({ open, handleClose, onAdded }) => {
     const { name, value, type, checked } = e.target;
     const finalValue = type === "checkbox" ? checked : value;
 
-    if (name === "age") {
-      const number = parseInt(finalValue);
-      setForm((prev) => ({
-        ...prev,
-        [name]: isNaN(number) || number <= 0 ? "" : number
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        [name]: finalValue
-      }));
-    }
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "age"
+        ? (() => {
+          const number = parseInt(finalValue);
+          return isNaN(number) || number <= 0 ? "" : number;
+        })()
+        : finalValue,
+    }));
   };
 
   const handleSubmit = async () => {
-    const newErrors = {};
 
-    const isEmpty = (value) => !value || value.trim() === "";
-
-    if (isEmpty(form.name)) newErrors.name = "Numele este obligatoriu.";
-    if (isEmpty(form.species)) newErrors.species = "Specia este obligatorie.";
-    if (isEmpty(form.breed)) newErrors.breed = "Rasa este obligatorie.";
-    if (!form.age) newErrors.age = "Vârsta este obligatorie.";
-    if (isEmpty(form.gender)) newErrors.gender = "Genul este obligatoriu.";
-    if (isEmpty(form.size)) newErrors.size = "Dimensiunea este obligatorie.";
-    if (isEmpty(form.color)) newErrors.color = "Culoarea este obligatorie.";
-    if (isEmpty(form.health_status)) newErrors.health_status = "Starea medicală este obligatorie.";
-    if (isEmpty(form.adoption_status)) newErrors.adoption_status = "Statusul de adopție este obligatoriu.";
-    if (isEmpty(form.arrival_date)) newErrors.arrival_date = "Data sosirii este obligatorie.";
-    if (isEmpty(form.image)) newErrors.image = "URL-ul imaginii este obligatoriu.";
-
-    if (
-      form.microchip_number &&
-      !/^\d{15}$/.test(form.microchip_number.trim())
-    ) {
-      newErrors.microchip_number = "Numărul de microcip trebuie să aibă exact 15 cifre.";
-    }
-
+    const newErrors = validateAnimalData(form);
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     try {
-      const formatDate = (dateStr) => {
-        const date = new Date(dateStr);
-        return isNaN(date.getTime()) ? "" : date.toISOString().split("T")[0];
-      };
 
-      const capitalizeWords = (str = "") =>
-        str
-          .trim()
-          .toLowerCase()
-          .split(" ")
-          .filter(Boolean)
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
-
-      const capitalizeFirstWordOnly = (str = "") => {
-        const trimmed = str.trimStart();
-        return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
-      };
-
-      const formattedData = {
-        ...form,
-        name: capitalizeWords(form.name),
-        species: capitalizeWords(form.species),
-        breed: capitalizeWords(form.breed),
-        notes: capitalizeFirstWordOnly(form.notes),
-        color: capitalizeFirstWordOnly(form.color),
-        arrival_date: formatDate(form.arrival_date),
-        microchip_number: form.microchip_number.trim() === "" ? null : form.microchip_number
-      };
+      const formattedData = formatAnimalData(form);
 
       console.log("Trimitem către backend:", formattedData);
 
@@ -153,16 +103,16 @@ const AddPetModal = ({ open, handleClose, onAdded }) => {
         </FormControl>
 
         <TextField
-  label="Culoare"
-  name="color"
-  value={form.color}
-  onChange={handleChange}
-  error={!!errors.color}
-  helperText={errors.color}
-  fullWidth
-/>
+          label="Culoare"
+          name="color"
+          value={form.color}
+          onChange={handleChange}
+          error={!!errors.color}
+          helperText={errors.color}
+          fullWidth
+        />
 
-        
+
         <FormControl fullWidth error={!!errors.health_status}>
           <InputLabel>Stare medicală</InputLabel>
           <Select name="health_status" value={form.health_status} onChange={handleChange} label="Stare medicală">
