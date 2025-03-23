@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {
   Dialog,
@@ -12,6 +13,7 @@ import {
   FormControl,
   FormHelperText
 } from "@mui/material";
+import { capitalizeWords } from "../../utils/formatHelpers";
 import axios from "axios";
 
 const SERVER_URL = "http://localhost:8080";
@@ -63,6 +65,12 @@ const EditStaffModal = ({ open, handleClose, onSaved, employee }) => {
   const handleSubmit = async () => {
     const newErrors = {};
 
+    const formattedData = {
+      ...form,
+      first_name: capitalizeWords(form.first_name),
+      last_name: capitalizeWords(form.last_name)
+    };
+
     if (!form.first_name.trim()) newErrors.first_name = "Prenumele este obligatoriu.";
     if (!form.last_name.trim()) newErrors.last_name = "Numele este obligatoriu.";
 
@@ -74,8 +82,8 @@ const EditStaffModal = ({ open, handleClose, onSaved, employee }) => {
 
     if (!form.phone_number.trim()) {
       newErrors.phone_number = "Telefonul este obligatoriu.";
-    } else if (!/^[0-9+\-()\s]*$/.test(form.phone_number)) {
-      newErrors.phone_number = "Număr de telefon invalid.";
+    } else if (!/^07\d{8}$/.test(form.phone_number.trim())) {
+      newErrors.phone_number = "Numărul trebuie să înceapă cu 07 și să conțină exact 10 cifre.";
     }
 
     if (!form.role) newErrors.role = "Rolul este obligatoriu.";
@@ -88,14 +96,37 @@ const EditStaffModal = ({ open, handleClose, onSaved, employee }) => {
     if (Object.keys(newErrors).length > 0) return;
 
     try {
+      const token = localStorage.getItem("token");
+
       if (employee) {
-        await axios.put(`${SERVER_URL}/employees/${employee.id}`, form);
+        await axios.put(`${SERVER_URL}/employees/${employee.id}`, formattedData, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       } else {
-        await axios.post(`${SERVER_URL}/employees`, form);
+        await axios.post(`${SERVER_URL}/employees`, formattedData, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       }
+
       onSaved();
       handleClose();
     } catch (err) {
+      const msg = err.response?.data?.message;
+
+      if (msg?.includes("Email")) {
+        setErrors((prev) => ({ ...prev, email: "Acest email este deja folosit." }));
+        return;
+      }
+
+      if (msg?.includes("telefon")) {
+        setErrors((prev) => ({ ...prev, phone_number: "Acest număr de telefon este deja folosit." }));
+        return;
+      }
+
       console.error("Eroare la salvare angajat:", err);
       alert("Eroare la salvare.");
     }

@@ -5,14 +5,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
-console.log("SECRET_KEY in employees:", SECRET_KEY);
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const employee = await Employee.findOne({ where: { email } });
-
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
@@ -27,8 +25,6 @@ const login = async (req, res) => {
       SECRET_KEY,
       { expiresIn: "1h" }
     );
-
-    console.log("Generated token:", token);
 
     res.status(200).json({ message: "Login successful", token, employee });
   } catch (error) {
@@ -48,7 +44,6 @@ const getEmployee = async (req, res) => {
 
     res.status(200).json(employee);
   } catch (error) {
-    console.error("Error fetching authenticated employee:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -58,42 +53,34 @@ const getAllEmployees = async (req, res) => {
     const employees = await Employee.findAll();
     res.json({ employees });
   } catch (error) {
-    console.error("Error fetching employees:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
 const createEmployee = async (req, res) => {
   try {
-    // 🔐 Verificare dacă userul este admin
     if (req.employee.role !== "admin") {
       return res.status(403).json({ message: "Doar administratorii pot adăuga angajați." });
     }
 
-    const {
-      first_name,
-      last_name,
-      email,
-      phone_number,
-      role,
-      password
-    } = req.body;
+    const { first_name, last_name, email, phone_number, role, password } = req.body;
 
-    // 🧪 Validare câmpuri obligatorii
     if (!email || !password || !first_name || !last_name || !role) {
       return res.status(400).json({ message: "Toate câmpurile obligatorii trebuie completate." });
     }
 
-    // Verificare email duplicat
     const existing = await Employee.findOne({ where: { email } });
     if (existing) {
       return res.status(400).json({ message: "Emailul este deja folosit." });
     }
 
-    // 🔒 Hash parola
+    const existingPhone = await Employee.findOne({ where: { phone_number } });
+    if (existingPhone) {
+      return res.status(400).json({ message: "Numărul de telefon este deja folosit." });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Creare angajat
     const newEmployee = await Employee.create({
       first_name,
       last_name,
@@ -115,22 +102,13 @@ const createEmployee = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("Eroare la creare angajat:", error);
     res.status(500).json({ message: "Eroare internă la crearea angajatului." });
   }
 };
 
 const updateEmployee = async (req, res) => {
   const id = req.params.id || req.employee?.id;
-
-  const {
-    first_name,
-    last_name,
-    email,
-    phone_number,
-    role,
-    password
-  } = req.body;
+  const { first_name, last_name, email, phone_number, role, password } = req.body;
 
   try {
     const employee = await Employee.findByPk(id);
@@ -142,34 +120,21 @@ const updateEmployee = async (req, res) => {
     const newPhone = phone_number?.trim();
     const newRole = role?.trim();
 
-    // Verificare duplicat email
     if (newEmail && newEmail !== employee.email) {
       const duplicate = await Employee.findOne({ where: { email: newEmail } });
-    
       if (duplicate && duplicate.id !== employee.id) {
         return res.status(400).json({ message: "Emailul este deja folosit de un alt cont." });
       }
-    
-      if (!duplicate || duplicate.id === employee.id) {
-        employee.email = newEmail; // setează doar dacă e sigur
-      }
+      employee.email = newEmail;
     }
-    
 
-// Verificare duplicat telefon
-if (newPhone && newPhone !== employee.phone_number) {
-  const duplicatePhone = await Employee.findOne({ where: { phone_number: newPhone } });
-
-  if (duplicatePhone && duplicatePhone.id !== employee.id) {
-    return res.status(400).json({ message: "Numărul de telefon este deja folosit de un alt cont." });
-  }
-
-  if (!duplicatePhone || duplicatePhone.id === employee.id) {
-    employee.phone_number = newPhone;
-  }
-}
-
-
+    if (newPhone && newPhone !== employee.phone_number) {
+      const duplicatePhone = await Employee.findOne({ where: { phone_number: newPhone } });
+      if (duplicatePhone && duplicatePhone.id !== employee.id) {
+        return res.status(400).json({ message: "Numărul de telefon este deja folosit de un alt cont." });
+      }
+      employee.phone_number = newPhone;
+    }
 
     if (first_name !== undefined) employee.first_name = first_name.trim();
     if (last_name !== undefined) employee.last_name = last_name.trim();
@@ -184,14 +149,9 @@ if (newPhone && newPhone !== employee.phone_number) {
     }
 
     await employee.save();
-
     res.json({ message: "Angajat actualizat cu succes.", employee });
   } catch (err) {
-    console.error("❌ Eroare internă:", err);
-    res.status(500).json({
-      message: "Eroare internă la actualizarea angajatului",
-      error: err.message
-    });
+    res.status(500).json({ message: "Eroare internă la actualizarea angajatului", error: err.message });
   }
 };
 
@@ -212,12 +172,9 @@ const deleteEmployee = async (req, res) => {
     await employee.destroy();
     res.json({ message: "Angajat șters cu succes." });
   } catch (err) {
-    console.error("❌ Eroare la ștergere:", err);
     res.status(500).json({ message: "Eroare internă la ștergere." });
   }
 };
-
-
 
 export {
   login,

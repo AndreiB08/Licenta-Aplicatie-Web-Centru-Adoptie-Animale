@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { capitalizeWords } from "../../../utils/formatHelpers";
 import {
   Container, Typography, TextField, Button, Box, Alert
 } from "@mui/material";
@@ -70,8 +71,8 @@ const Account = () => {
 
     if (!form.phone_number.trim()) {
       newErrors.phone_number = "Telefonul este obligatoriu.";
-    } else if (!/^[0-9+\-()\s]*$/.test(form.phone_number)) {
-      newErrors.phone_number = "Număr de telefon invalid.";
+    } else if (!/^07\d{8}$/.test(form.phone_number.trim())) {
+      newErrors.phone_number = "Numărul trebuie să înceapă cu 07 și să conțină exact 10 cifre.";
     }
 
     if (form.password && form.password.length < 6) {
@@ -86,7 +87,12 @@ const Account = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const body = { ...form };
+
+      const body = {
+        ...form,
+        first_name: capitalizeWords(form.first_name),
+        last_name: capitalizeWords(form.last_name)
+      };
 
       if (!body.password || body.password.trim() === "") {
         delete body.password;

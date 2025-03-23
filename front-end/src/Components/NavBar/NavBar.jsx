@@ -28,8 +28,8 @@ const Navbar = () => {
                         <li><Link to="/admin/dashboard">{t('dashboard')}</Link></li>
                         <li><Link to="/admin/pets">{t('manage_pets')}</Link></li>
                         {role === "admin" && (
-  <li><Link to="/admin/staff">{t('manage_users')}</Link></li>
-)}
+                            <li><Link to="/admin/staff">{t('manage_users')}</Link></li>
+                        )}
                         <li><Link to="/admin/account">Editează cont</Link></li>
                         <li>
                             <button

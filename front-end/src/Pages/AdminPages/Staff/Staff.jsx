@@ -177,13 +177,13 @@ const Staff = () => {
                   <td>
                     <button onClick={() => openEditModal(emp)} className="edit-btn">Editează</button>
                     {emp.id.toString() !== currentUserId?.toString() && (
-                    <button
-                      onClick={() => handleDelete(emp.id)}
-                      className="delete-btn"
-                    >
-                      Șterge
-                    </button>
-                  )}
+                      <button
+                        onClick={() => handleDelete(emp.id)}
+                        className="delete-btn"
+                      >
+                        Șterge
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -205,11 +205,12 @@ const Staff = () => {
           )}
         </>
       )}
+
       <EditStaffModal
         open={openModal}
         handleClose={closeEditModal}
         employee={selectedEmployee}
-        onUpdated={fetchEmployees}
+        onSaved={fetchEmployees}
       />
     </div>
   );
