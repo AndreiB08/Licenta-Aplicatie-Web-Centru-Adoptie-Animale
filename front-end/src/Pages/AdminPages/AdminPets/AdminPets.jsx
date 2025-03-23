@@ -66,8 +66,8 @@ const AdminPets = () => {
         let filtered = pets;
 
         if (species) {
-            filtered = filtered.filter((pet) => pet.species === species);
-        }
+          filtered = filtered.filter((pet) => pet.species.toLowerCase() === species.toLowerCase());
+        }        
 
         if (status) {
             filtered = filtered.filter((pet) => pet.adoption_status === status);
