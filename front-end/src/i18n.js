@@ -6,10 +6,10 @@ i18n.use(initReactI18next).init({
     en: {
       translation: {
         species: {
-          dog: "Dog",
-          cat: "Cat",
-          rabbit: "Rabbit",
-          parrot: "Parrot"
+          Dog: "Dog",
+          Cat: "Cat",
+          Rabbit: "Rabbit",
+          Parrot: "Parrot"
         },
         adoption_status: {
           available: "Available for adoption",
@@ -41,10 +41,10 @@ i18n.use(initReactI18next).init({
     ro: {
       translation: {
         species: {
-          dog: "Câine",
-          cat: "Pisică",
-          rabbit: "Iepure",
-          parrot: "Papagal"
+          Dog: "Câine",
+          Cat: "Pisică",
+          Rabbit: "Iepure",
+          Parrot: "Papagal"
         },
         adoption_status: {
           available: "Disponibil pentru adopție",

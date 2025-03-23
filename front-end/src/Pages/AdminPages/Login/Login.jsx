@@ -31,6 +31,7 @@ const Login = () => {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", data.employee.role);
+            localStorage.setItem("id", data.employee.id);
             localStorage.setItem("isAuthenticated", "true");
             
             navigate("/admin/dashboard");

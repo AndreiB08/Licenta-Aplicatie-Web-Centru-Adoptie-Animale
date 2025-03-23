@@ -63,6 +63,63 @@ const getAllEmployees = async (req, res) => {
   }
 };
 
+const createEmployee = async (req, res) => {
+  try {
+    // 🔐 Verificare dacă userul este admin
+    if (req.employee.role !== "admin") {
+      return res.status(403).json({ message: "Doar administratorii pot adăuga angajați." });
+    }
+
+    const {
+      first_name,
+      last_name,
+      email,
+      phone_number,
+      role,
+      password
+    } = req.body;
+
+    // 🧪 Validare câmpuri obligatorii
+    if (!email || !password || !first_name || !last_name || !role) {
+      return res.status(400).json({ message: "Toate câmpurile obligatorii trebuie completate." });
+    }
+
+    // Verificare email duplicat
+    const existing = await Employee.findOne({ where: { email } });
+    if (existing) {
+      return res.status(400).json({ message: "Emailul este deja folosit." });
+    }
+
+    // 🔒 Hash parola
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Creare angajat
+    const newEmployee = await Employee.create({
+      first_name,
+      last_name,
+      email,
+      phone_number,
+      role,
+      password: hashedPassword
+    });
+
+    res.status(201).json({
+      message: "Angajat creat cu succes.",
+      employee: {
+        id: newEmployee.id,
+        first_name,
+        last_name,
+        email,
+        phone_number,
+        role
+      }
+    });
+  } catch (error) {
+    console.error("Eroare la creare angajat:", error);
+    res.status(500).json({ message: "Eroare internă la crearea angajatului." });
+  }
+};
+
 const updateEmployee = async (req, res) => {
   const id = req.params.id || req.employee?.id;
 
@@ -166,6 +223,7 @@ export {
   login,
   getEmployee,
   getAllEmployees,
+  createEmployee,
   updateEmployee,
   deleteEmployee
 };

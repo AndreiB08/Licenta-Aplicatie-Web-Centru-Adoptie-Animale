@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 const Navbar = () => {
     const { t } = useTranslation();
     const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    const role = localStorage.getItem("role");
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -26,7 +27,9 @@ const Navbar = () => {
                     <>
                         <li><Link to="/admin/dashboard">{t('dashboard')}</Link></li>
                         <li><Link to="/admin/pets">{t('manage_pets')}</Link></li>
-                        <li><Link to="/admin/staff">{t('manage_users')}</Link></li>
+                        {role === "admin" && (
+  <li><Link to="/admin/staff">{t('manage_users')}</Link></li>
+)}
                         <li><Link to="/admin/account">Editează cont</Link></li>
                         <li>
                             <button

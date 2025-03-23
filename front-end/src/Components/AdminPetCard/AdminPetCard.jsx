@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -28,6 +29,19 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
 
   const handleButtonClick = () => {
     navigate(`/admin/edit-pet/${id}`);
+  };
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(`Sigur vrei să ștergi animalul "${name}"?`);
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:8080/pets/${id}`);
+      window.location.reload(); // 🔁 reîncarcă pagina după ștergere
+    } catch (error) {
+      console.error("Eroare la ștergerea animalului:", error);
+      alert("A apărut o eroare la ștergere.");
+    }
   };
 
   return (
@@ -60,7 +74,7 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
           Status: {t(`adoption_status.${adoption_status}`)}
         </Typography>
       </CardContent>
-      <CardActions sx={{ backgroundColor: "#f8f9fa" }}>
+      <CardActions sx={{ backgroundColor: "#f8f9fa", justifyContent: "space-between", px: 2 }}>
         <Button
           size='small'
           variant='contained'
@@ -71,6 +85,17 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
           onClick={handleButtonClick}
         >
           Editează
+        </Button>
+        <Button
+          size='small'
+          variant='contained'
+          sx={{
+            backgroundColor: "#ff4d4f",
+            "&:hover": { backgroundColor: "#d9363e" }
+          }}
+          onClick={handleDelete}
+        >
+          Șterge
         </Button>
       </CardActions>
     </Card>

@@ -5,7 +5,7 @@ import EditStaffModal from "../../../Components/StaffModal/StaffModal";
 import './Staff.css';
 
 const SERVER_URL = "http://localhost:8080";
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 const Staff = () => {
   const [employees, setEmployees] = useState([]);
@@ -36,8 +36,13 @@ const Staff = () => {
   const fetchEmployees = () => {
     axios.get(`${SERVER_URL}/employees`)
       .then((res) => {
-        setEmployees(res.data.employees || []);
-        setFiltered(res.data.employees || []);
+        const sorted = (res.data.employees || []).sort((a, b) => {
+          const nameA = `${a.first_name} ${a.last_name}`.toLowerCase();
+          const nameB = `${b.first_name} ${b.last_name}`.toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+        setEmployees(sorted);
+        setFiltered(sorted);
       })
       .catch((err) => console.error("Eroare la preluarea angajaților:", err));
   };
@@ -171,13 +176,14 @@ const Staff = () => {
                   <td>{emp.role}</td>
                   <td>
                     <button onClick={() => openEditModal(emp)} className="edit-btn">Editează</button>
+                    {emp.id.toString() !== currentUserId?.toString() && (
                     <button
-                      style={{ display: emp.id.toString() === currentUserId?.toString() ? "hide" : "inline-block" }}
                       onClick={() => handleDelete(emp.id)}
                       className="delete-btn"
                     >
                       Șterge
                     </button>
+                  )}
                   </td>
                 </tr>
               ))}

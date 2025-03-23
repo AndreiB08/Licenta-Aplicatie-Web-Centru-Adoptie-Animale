@@ -27,6 +27,10 @@ const Account = () => {
       });
 
       const data = res.data;
+
+      // ✅ salvează și ID-ul în localStorage
+      localStorage.setItem("id", data.id);
+
       setForm({
         first_name: data.first_name || "",
         last_name: data.last_name || "",
@@ -70,18 +74,18 @@ const Account = () => {
       });
 
       setSuccessMessage("Modificările au fost salvate cu succes!");
-    }  catch (err) {
+
+      // ✅ actualizează datele local după salvare
+      await fetchProfile();
+    } catch (err) {
       console.error("Eroare la salvare:", err);
-    
-      // 👇 adaugă asta ca să vezi mesajul de eroare de la backend
+
       if (err.response && err.response.data) {
         console.log("Mesaj de la server:", err.response.data);
         setErrorMessage(err.response.data.message || "Eroare necunoscută.");
       } else {
         setErrorMessage("Eroare de rețea sau server.");
       }
-    
-    
     } finally {
       setLoading(false);
     }

@@ -15,11 +15,27 @@ export const runSeed = async () => {
                 role: "admin"
             },
             {
-                first_name: "Andrei",
-                last_name: "Buzagiu",
-                email: "andrei.test@gmail.com",
+                first_name: "Vlăduț",
+                last_name: "Alexa",
+                email: "vladut.alexa@gmail.com",
                 password: "staff123",
                 phone_number: "0756056567",
+                role: "staff"
+            },
+            {
+                first_name: "Alina",
+                last_name: "Constantin",
+                email: "alina.constantin@gmail.com",
+                password: "staff123",
+                phone_number: "0742157866",
+                role: "staff"
+            },
+            {
+                first_name: "Gabriel",
+                last_name: "Truică",
+                email: "gabriel.truica@gmail.com",
+                password: "staff123",
+                phone_number: "0742689511",
                 role: "staff"
             }
         ], { individualHooks: true });
@@ -31,7 +47,7 @@ export const runSeed = async () => {
             await Animal.bulkCreate([
                 {
                     name: "Buddy",
-                    species: "dog",
+                    species: "Dog",
                     breed: "Golden Retriever",
                     age: 3,
                     gender: "male",
@@ -48,7 +64,7 @@ export const runSeed = async () => {
                 },
                 {
                     name: "Whiskers",
-                    species: "cat",
+                    species: "Cat",
                     breed: "Siamese",
                     age: 2,
                     gender: "female",
@@ -65,7 +81,7 @@ export const runSeed = async () => {
                 },
                 {
                     name: "Thumper",
-                    species: "rabbit",
+                    species: "Rabbit",
                     breed: "Holland Lop",
                     age: 1,
                     gender: "male",
@@ -82,7 +98,7 @@ export const runSeed = async () => {
                 },
                 {
                     name: "Rio",
-                    species: "parrot",
+                    species: "Parrot",
                     breed: "Macaw",
                     age: 4,
                     gender: "female",

@@ -27,19 +27,19 @@ export const Animal = db.define("animals", {
         }
     },
     gender: {
-        type: DataTypes.ENUM("male", "female"),
+        type: DataTypes.ENUM("Male", "Female"),
         allowNull: false
     },
     size: {
-        type: DataTypes.ENUM("small", "medium", "large"),
+        type: DataTypes.ENUM("Small", "Medium", "Large"),
         allowNull: false
     },
     color: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     },
     health_status: {
-        type: DataTypes.ENUM("healthy", "sick", "under treatment"),
+        type: DataTypes.ENUM("Healthy", "Sick", "Under treatment"),
         allowNull: false
     },
     vaccinated: {
