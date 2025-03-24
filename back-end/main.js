@@ -3,6 +3,7 @@ import cors from "cors";
 import { router as indexRouter } from "./routes/index.js";
 import { synchronizeDatabase } from "./models/config.js";
 import { runSeed } from "./models/seed.js";
+import "./models/associations.js";
 
 const PORT = 8080;
 const app = express();

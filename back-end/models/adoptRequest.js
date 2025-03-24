@@ -26,6 +26,23 @@ export const AdoptRequest = db.define("adoptRequests", {
         type: DataTypes.TEXT,
         allowNull: true,
     },
+    pickupDateTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    animalId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: "animals",
+            key: "id"
+        }
+    },
+    approved: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    }
 }, {
     timestamps: true,
 });

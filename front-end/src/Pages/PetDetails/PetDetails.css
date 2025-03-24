@@ -70,8 +70,10 @@
 
 .buttons {
     margin-top: 20px;
-    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
     gap: 10px;
+    width: 100% !important;
 }
 
 .contact-button,

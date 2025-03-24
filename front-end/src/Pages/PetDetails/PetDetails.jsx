@@ -24,8 +24,8 @@ const PetDetails = () => {
                         navigate("*");
                     } else {
                         setPet(res.data);
+                        setSelectedImage(res.data.image);
                     }
-                    setSelectedImage(res.data.image);
                 } else {
                     setError(true);
                 }
@@ -57,30 +57,35 @@ const PetDetails = () => {
                         <p><strong>Age:</strong> {pet.age} years</p>
                         <p><strong>Size:</strong> {pet.size}</p>
                         <p><strong>Gender:</strong> {pet.gender}</p>
-                        <p><strong>Color:</strong> {pet.color ? pet.color : "Not specified"}</p>
+                        <p><strong>Color:</strong> {pet.color || "Not specified"}</p>
                         <p><strong>Health Status:</strong> {pet.health_status}</p>
                         <p><strong>Vaccinated:</strong> {pet.vaccinated ? "Yes" : "No"}</p>
                         <p><strong>Sterilized:</strong> {pet.sterilized ? "Yes" : "No"}</p>
-                        <p><strong>Notes:</strong> {pet.notes ? pet.notes : "No additional information available"}</p>
+                        <p><strong>Notes:</strong> {pet.notes || "No additional information available"}</p>
                         <p>{pet.description}</p>
 
                         <div className="buttons">
                             <button className="contact-button" onClick={() => setShowContactModal(true)}>
                                 Adoptă-mă
                             </button>
-
-                            <button className="other-pets-button" onClick={() => navigate("/pets")}>Vezi alte animale</button>
+                            <button className="other-pets-button" onClick={() => navigate("/pets")}>
+                                Vezi alte animale
+                            </button>
                         </div>
                     </div>
                 </div>
             ) : (
                 <p className="error">Pet details not available</p>
             )}
-            <AdoptionContactModal
-                open={showContactModal}
-                setOpen={setShowContactModal}
-                animalId={pet.id}
-            />
+
+            {/* ✅ Asigură-te că pet e definit înainte de a trimite animalId */}
+            {pet && (
+                <AdoptionContactModal
+                    open={showContactModal}
+                    setOpen={setShowContactModal}
+                    animalId={pet.id}
+                />
+            )}
         </div>
     );
 };

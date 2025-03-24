@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import './Dashboard.css';
 
@@ -9,8 +8,23 @@ const COLORS = ["#FF0000", "#008000", "#D8C142"];
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ total: 0, adopted: 0, available: 0, reserved: 0 });
+  const [requests, setRequests] = useState([]);
+
+  // ✅ Funcție pentru a prelua cererile neaprobate
+  const fetchUnapprovedRequests = async () => {
+    try {
+      const res = await axios.get(`${SERVER_URL}/adopt-request`);
+      const unapproved = res.data
+        .filter(req => req.approved === false)
+        .sort((a, b) => new Date(a.pickupDateTime) - new Date(b.pickupDateTime));
+      setRequests(unapproved);
+    } catch (err) {
+      console.error("Eroare la preluarea cererilor:", err);
+    }
+  };
 
   useEffect(() => {
+    // Animale
     axios.get(`${SERVER_URL}/pets`)
       .then((res) => {
         const data = res.data.animals;
@@ -20,7 +34,55 @@ const Dashboard = () => {
         setStats({ total: data.length, adopted, available, reserved });
       })
       .catch((err) => console.error("Eroare la preluarea datelor:", err));
+
+    // Cereri neaprobate
+    fetchUnapprovedRequests();
   }, []);
+
+  const handleAccept = async (requestId) => {
+    try {
+      // Găsim cererea
+      const request = requests.find(req => req.id === requestId);
+      if (!request) return;
+
+      const { animalId } = request;
+
+      // 1. Marcăm animalul ca adoptat
+      await axios.put(`${SERVER_URL}/pets/${animalId}`, {
+        adoption_status: "adopted"
+      });
+
+      // 2. Marcăm cererea ca aprobată
+      await axios.put(`${SERVER_URL}/adopt-request/${requestId}`, {
+        approved: true
+      });
+
+      // 3. Actualizăm statisticile animale
+      const updatedPets = await axios.get(`${SERVER_URL}/pets`);
+      const data = updatedPets.data.animals;
+      const adopted = data.filter(animal => animal.adoption_status === "adopted").length;
+      const available = data.filter(animal => animal.adoption_status === "available").length;
+      const reserved = data.filter(animal => animal.adoption_status === "reserved").length;
+      setStats({ total: data.length, adopted, available, reserved });
+
+      // 4. Scoatem cererea din listă
+      setRequests(prev => prev.filter(r => r.id !== requestId));
+
+      console.log(`Cererea ${requestId} aprobată și animalul marcat ca adoptat.`);
+    } catch (error) {
+      console.error("Eroare la acceptarea cererii:", error);
+    }
+  };
+
+  const handleReject = async (id) => {
+    try {
+      await axios.delete(`${SERVER_URL}/adopt-request/${id}`);
+      setRequests(prev => prev.filter(req => req.id !== id));
+      console.log(`Cererea ${id} respinsă și ștearsă cu succes.`);
+    } catch (error) {
+      console.error("Eroare la respingerea cererii:", error);
+    }
+  };
 
   const data = [
     { name: "Animale adoptate", value: stats.adopted },
@@ -30,7 +92,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* Cardurile cu cifrele aliniate corect */}
       <div className="dashboard-info">
         <h2>Total animale</h2>
         <p>{stats.total}</p>
@@ -43,7 +104,6 @@ const Dashboard = () => {
         <h2>Animale rezervate</h2>
         <p>{stats.reserved}</p>
       </div>
-
 
       <div className="piechart">
         <h2>Statistici Adopții</h2>
@@ -67,14 +127,26 @@ const Dashboard = () => {
         </ResponsiveContainer>
       </div>
 
-      {/* <div className="dashboard-">
-        <Link to="/add-animal">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">Adaugă Animal</button>
-        </Link>
-        <Link to="/manage-adoptions">
-          <button className="bg-green-500 text-white px-4 py-2 rounded">Gestionează Adopțiile</button>
-        </Link>
-      </div> */}
+      <div className="adoption-requests">
+        <h2>Cereri de Adopție</h2>
+        {requests.length === 0 ? (
+          <p>Nu există cereri momentan.</p>
+        ) : (
+          requests.map(req => (
+            <div key={req.id} className="request-card">
+              <p><strong>Nume:</strong> {req.name}</p>
+              <p><strong>Email:</strong> {req.email}</p>
+              <p><strong>Telefon:</strong> {req.phone}</p>
+              <p><strong>Mesaj:</strong> {req.message || "–"}</p>
+              <p><strong>Ridicare:</strong> {new Date(req.pickupDateTime).toLocaleString()}</p>
+              <div className="request-buttons">
+                <button className="accept" onClick={() => handleAccept(req.id)}>Acceptă</button>
+                <button className="reject" onClick={() => handleReject(req.id)}>Respinge</button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
