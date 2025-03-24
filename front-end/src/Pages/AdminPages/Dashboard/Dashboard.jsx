@@ -73,11 +73,22 @@ const Dashboard = () => {
         await axios.put(`${SERVER_URL}/pets/${request.animalId}`, {
           adoption_status: "available"
         });
+
+        await axios.post(`${SERVER_URL}/notify-me/notify-availability`, {
+          animalId: request.animalId
+        });
       }
+
+      const updatedPets = await axios.get(`${SERVER_URL}/pets`);
+      const data = updatedPets.data.animals;
+      const adopted = data.filter(animal => animal.adoption_status === "adopted").length;
+      const available = data.filter(animal => animal.adoption_status === "available").length;
+      const reserved = data.filter(animal => animal.adoption_status === "reserved").length;
+      setStats({ total: data.length, adopted, available, reserved });
 
       setRequests(prev => prev.filter(req => req.id !== id));
 
-      console.log(`Cererea ${id} respinsă și ștearsă cu succes.`);
+      console.log(`Cererea ${id} respinsă, animal setat ca disponibil și mail-urile trimise.`);
     } catch (error) {
       console.error("Eroare la respingerea cererii:", error);
     }
