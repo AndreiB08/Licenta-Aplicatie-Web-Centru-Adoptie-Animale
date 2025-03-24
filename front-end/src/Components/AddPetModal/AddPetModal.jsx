@@ -5,6 +5,7 @@ import {
   TextField, Button, Select, MenuItem, InputLabel, FormControl, FormHelperText
 } from "@mui/material";
 import { formatAnimalData, validateAnimalData } from "../../utils/formatHelpers";
+import { animalSpecies } from "../../constants/animalSpecies";
 
 const SERVER_URL = "http://localhost:8080";
 
@@ -79,7 +80,17 @@ const AddPetModal = ({ open, handleClose, onAdded }) => {
       <DialogTitle>Adaugă animal nou</DialogTitle>
       <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
         <TextField label="Nume" name="name" value={form.name} onChange={handleChange} error={!!errors.name} helperText={errors.name} fullWidth />
-        <TextField label="Specie" name="species" value={form.species} onChange={handleChange} error={!!errors.species} helperText={errors.species} fullWidth />
+
+        <FormControl fullWidth error={!!errors.species}>
+          <InputLabel>Specie</InputLabel>
+          <Select name="species" value={form.species} onChange={handleChange} label="Specie">
+            {animalSpecies.map((specie) => (
+              <MenuItem key={specie} value={specie}>{specie}</MenuItem>
+            ))}
+          </Select>
+          {errors.species && <FormHelperText>{errors.species}</FormHelperText>}
+        </FormControl>
+
         <TextField label="Rasă" name="breed" value={form.breed} onChange={handleChange} error={!!errors.breed} helperText={errors.breed} fullWidth />
         <TextField label="Vârstă" name="age" type="number" value={form.age} onChange={handleChange} error={!!errors.age} helperText={errors.age} fullWidth />
 
@@ -111,7 +122,6 @@ const AddPetModal = ({ open, handleClose, onAdded }) => {
           helperText={errors.color}
           fullWidth
         />
-
 
         <FormControl fullWidth error={!!errors.health_status}>
           <InputLabel>Stare medicală</InputLabel>

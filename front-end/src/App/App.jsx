@@ -14,8 +14,6 @@ import Navbar from "../Components/NavBar/NavBar";
 import Footer from "../Components/Footer/Footer";
 import "./App.css";
 
-import AddAnimal from "../Pages/AddPet";
-
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
   return isAuthenticated ? children : <Navigate to="/login" replace />;

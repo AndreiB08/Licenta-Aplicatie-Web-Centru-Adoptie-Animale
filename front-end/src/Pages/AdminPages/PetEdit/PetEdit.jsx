@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { formatAnimalData, validateAnimalData } from "../../../utils/formatHelpers";
+import { animalSpecies } from "../../../constants/animalSpecies";
 import "./PetEdit.css";
 
 const SERVER_URL = "http://localhost:8080/pets";
@@ -52,7 +53,6 @@ const PetEdit = () => {
       const formattedPet = formatAnimalData(pet);
 
       await axios.put(`${SERVER_URL}/${id}`, formattedPet);
-      alert("Animalul a fost actualizat cu succes.");
       navigate("/admin/pets");
     } catch (err) {
       console.error("Update failed:", err);
@@ -81,7 +81,12 @@ const PetEdit = () => {
           <input type="text" name="name" value={pet.name} onChange={handleChange} placeholder="Nume" />
           {errors.name && <p className="error-text">{errors.name}</p>}
 
-          <input type="text" name="species" value={pet.species} onChange={handleChange} placeholder="Specie" />
+          <select name="species" value={pet.species} onChange={handleChange}>
+            <option value="">-- Selectează specia --</option>
+            {animalSpecies.map((specie) => (
+              <option key={specie} value={specie}>{specie}</option>
+            ))}
+          </select>
           {errors.species && <p className="error-text">{errors.species}</p>}
 
           <input type="text" name="breed" value={pet.breed} onChange={handleChange} placeholder="Rasă" />
