@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "./PetCard.css";
+import AdoptionContactModal from "../AdoptModal/AdoptModal";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 
@@ -24,14 +25,16 @@ const getStatusClass = (status) => {
 
 const getCardClass = (status) => {
   return status === 'reserved' ? 'pet-card reserved-card' : 'pet-card';
-}
+};
 
 const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
-
   const navigate = useNavigate();
-
   const { t } = useTranslation();
 
+  // State pentru deschiderea modalului de notificare
+  const [openNotifyModal, setOpenNotifyModal] = useState(false);
+
+  // Butonul normal (dacă animalul e disponibil)
   const handleButtonClick = () => {
     if (adoption_status === 'reserved' || adoption_status === 'adopted') {
       navigate("*");
@@ -40,12 +43,16 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
     }
   };
 
+  // Clic pe „Anunță-mă dacă este disponibil”
   const handleNotifyClick = () => {
-    alert("Vei fi notificat dacă acest animal devine disponibil.");
+    setOpenNotifyModal(true);
   };
 
   return (
-    <Card sx={{ width: 300, margin: 2, boxShadow: 3 }} className={getCardClass(adoption_status)}>
+    <Card
+      sx={{ width: 300, margin: 2, boxShadow: 3 }}
+      className={getCardClass(adoption_status)}
+    >
       <CardMedia
         sx={{
           height: 220,
@@ -66,25 +73,41 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
         <Typography variant="body2" color="text.secondary">
           Vârstă: {age} ani
         </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 'bold' }} className={`status ${getStatusClass(adoption_status)}`}>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: 'bold' }}
+          className={`status ${getStatusClass(adoption_status)}`}
+        >
           Status: {t(`adoption_status.${adoption_status}`)}
         </Typography>
       </CardContent>
       <CardActions sx={{ backgroundColor: "#f8f9fa", justifyContent: "center" }}>
         {adoption_status === 'reserved' ? (
+          <>
+            <Button
+              size='small'
+              variant='contained'
+              onClick={handleNotifyClick}
+              sx={{
+                fontSize: "0.75rem",
+                backgroundColor: "#d8c142",
+                "&:hover": { backgroundColor: "#b8a22e" }
+              }}
+            >
+              Anunță-mă dacă este disponibil
+            </Button>
 
-          <Button
-            size='small'
-            variant='contained'
-            onClick={handleNotifyClick}
-            sx={{
-              fontSize: "0.75rem",
-              backgroundColor: "#d8c142",
-              "&:hover": { backgroundColor: "#b8a22e" }
-            }}
-          >
-            Anunță-mă dacă este disponibil
-          </Button>
+            {/*
+              Aici deschidem același modal, dar cu `notifyOnly={true}`
+              pentru a afișa doar câmpul Email.
+            */}
+            <AdoptionContactModal
+              open={openNotifyModal}
+              setOpen={setOpenNotifyModal}
+              notifyOnly={true}
+              animalId={id}
+            />
+          </>
         ) : (
           <Button
             size='small'
