@@ -30,7 +30,7 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
 
   const navigate = useNavigate();
 
-  const { t } =useTranslation();
+  const { t } = useTranslation();
 
   const handleButtonClick = () => {
     if (adoption_status === 'reserved' || adoption_status === 'adopted') {
@@ -40,12 +40,16 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
     }
   };
 
+  const handleNotifyClick = () => {
+    alert("Vei fi notificat dacă acest animal devine disponibil.");
+  };
+
   return (
     <Card sx={{ width: 300, margin: 2, boxShadow: 3 }} className={getCardClass(adoption_status)}>
       <CardMedia
         sx={{
           height: 220,
-          width: "100%", 
+          width: "100%",
           objectFit: "cover",
           objectPosition: "top"
         }}
@@ -62,24 +66,40 @@ const PetCard = ({ id, name, species, breed, age, adoption_status, image }) => {
         <Typography variant="body2" color="text.secondary">
           Vârstă: {age} ani
         </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 'bold'}} className={`status ${getStatusClass(adoption_status)}`}>
-        Status: {t(`adoption_status.${adoption_status}`)}
+        <Typography variant="body2" sx={{ fontWeight: 'bold' }} className={`status ${getStatusClass(adoption_status)}`}>
+          Status: {t(`adoption_status.${adoption_status}`)}
         </Typography>
       </CardContent>
-      <CardActions sx={{ backgroundColor: "#f8f9fa"}}>
-      <Button 
-        size='small'
-        variant='contained'
-        sx={{ 
-          backgroundColor: "#048A81", 
-          "&:hover": { backgroundColor: "#036F68" },
-          visibility: adoption_status === 'reserved' ? "hidden" : "visible"
-        }}
-        onClick={handleButtonClick}
-        >
-        {t("more")}
-      </Button>
-    </CardActions>
+      <CardActions sx={{ backgroundColor: "#f8f9fa", justifyContent: "center" }}>
+        {adoption_status === 'reserved' ? (
+
+          <Button
+            size='small'
+            variant='contained'
+            onClick={handleNotifyClick}
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#d8c142",
+              "&:hover": { backgroundColor: "#b8a22e" }
+            }}
+          >
+            Anunță-mă dacă este disponibil
+          </Button>
+        ) : (
+          <Button
+            size='small'
+            variant='contained'
+            sx={{
+              fontSize: "0.75rem",
+              backgroundColor: "#048A81",
+              "&:hover": { backgroundColor: "#036F68" }
+            }}
+            onClick={handleButtonClick}
+          >
+            {t("more")}
+          </Button>
+        )}
+      </CardActions>
     </Card>
   );
 };

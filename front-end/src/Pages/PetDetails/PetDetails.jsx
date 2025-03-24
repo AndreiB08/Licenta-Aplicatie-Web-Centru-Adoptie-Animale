@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './PetDetails.css';
+import AdoptionContactModal from "../../Components/AdoptModal/AdoptModal";
 import { useNavigate, useParams } from "react-router-dom";
 
 const SERVER_URL = "http://localhost:8080/pets";
@@ -12,6 +13,7 @@ const PetDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [selectedImage, setSelectedImage] = useState("");
+    const [showContactModal, setShowContactModal] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -59,22 +61,26 @@ const PetDetails = () => {
                         <p><strong>Health Status:</strong> {pet.health_status}</p>
                         <p><strong>Vaccinated:</strong> {pet.vaccinated ? "Yes" : "No"}</p>
                         <p><strong>Sterilized:</strong> {pet.sterilized ? "Yes" : "No"}</p>
-                        <p><strong>Adoption Status:</strong> {pet.adoption_status}</p>
-                        <p><strong>Arrival Date:</strong> {pet.arrival_date}</p>
-                        <p><strong>Microchip Number:</strong> {pet.microchip_number ? pet.microchip_number : "Not available"}</p>
-                        <p><strong>Last Updated:</strong> {new Date(pet.last_updated).toLocaleDateString()}</p>
                         <p><strong>Notes:</strong> {pet.notes ? pet.notes : "No additional information available"}</p>
                         <p>{pet.description}</p>
 
                         <div className="buttons">
-                            <button className="contact-button">Contact</button>
-                            <button className="other-pets-button" onClick={() => navigate("/pets")}>See other pets</button>
+                            <button className="contact-button" onClick={() => setShowContactModal(true)}>
+                                Adoptă-mă
+                            </button>
+
+                            <button className="other-pets-button" onClick={() => navigate("/pets")}>Vezi alte animale</button>
                         </div>
                     </div>
                 </div>
             ) : (
                 <p className="error">Pet details not available</p>
             )}
+            <AdoptionContactModal
+                open={showContactModal}
+                setOpen={setShowContactModal}
+                animalId={pet.id}
+            />
         </div>
     );
 };

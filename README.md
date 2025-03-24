@@ -87,11 +87,11 @@ npm run dev
 
 ```txt
 Admin:
-email: admin@example.com
+email: andrei.buzagiu@gmail.com
 parola: admin123
 
 Staff:
-email: staff@example.com
+email: vladut.alexa@gmail.com
 parola: staff123
 ```
 

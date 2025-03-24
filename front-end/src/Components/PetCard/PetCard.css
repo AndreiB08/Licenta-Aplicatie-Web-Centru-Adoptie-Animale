@@ -47,3 +47,17 @@
     filter: grayscale(100%) !important;
     opacity: 0.5 !important;
 }
+
+.MuiButton-outlined {
+    border-color: #d8c142 !important;
+    color: #d8c142 !important;
+    font-weight: bold;
+    text-transform: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.MuiButton-outlined:hover {
+    background-color: #f4f1d6 !important;
+    border-color: #c2ae2e !important;
+    color: #c2ae2e !important;
+}

@@ -8,10 +8,11 @@ import {
   TextField,
   Button
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const SERVER_URL = "http://localhost:8080";
 
-const AdoptionContactModal = ({ open, setOpen }) => {
+const AdoptionContactModal = ({ open, setOpen, animalId }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,6 +21,7 @@ const AdoptionContactModal = ({ open, setOpen }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validate = () => {
     const newErrors = {};
@@ -58,13 +60,22 @@ const AdoptionContactModal = ({ open, setOpen }) => {
     }
 
     try {
-      const res = await axios.post(`${SERVER_URL}/adopt-requests`, formData);
+      const res = await axios.post(`${SERVER_URL}/adopt-request`, formData);
       console.log("Cerere salvată:", res.data);
+
+      if (animalId) {
+        await axios.put(`${SERVER_URL}/pets/${animalId}`, {
+          adoption_status: "reserved"
+        });
+        console.log("Status animal actualizat în 'reserved'");
+      }
+
       alert("Cererea ta a fost trimisă cu succes!");
 
       setFormData({ name: "", email: "", phone: "", message: "" });
       setErrors({});
       setOpen(false);
+      navigate("/pets");
     } catch (error) {
       console.error("Eroare:", error);
       alert("A apărut o eroare. Încearcă din nou.");
