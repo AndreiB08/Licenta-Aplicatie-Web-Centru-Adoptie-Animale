@@ -10,7 +10,6 @@ const Dashboard = () => {
   const [stats, setStats] = useState({ total: 0, adopted: 0, available: 0, reserved: 0 });
   const [requests, setRequests] = useState([]);
 
-  // ✅ Funcție pentru a prelua cererile neaprobate
   const fetchUnapprovedRequests = async () => {
     try {
       const res = await axios.get(`${SERVER_URL}/adopt-request`);
@@ -24,7 +23,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    // Animale
     axios.get(`${SERVER_URL}/pets`)
       .then((res) => {
         const data = res.data.animals;
@@ -35,29 +33,22 @@ const Dashboard = () => {
       })
       .catch((err) => console.error("Eroare la preluarea datelor:", err));
 
-    // Cereri neaprobate
     fetchUnapprovedRequests();
   }, []);
 
   const handleAccept = async (requestId) => {
     try {
-      // Găsim cererea
       const request = requests.find(req => req.id === requestId);
       if (!request) return;
 
-      const { animalId } = request;
-
-      // 1. Marcăm animalul ca adoptat
-      await axios.put(`${SERVER_URL}/pets/${animalId}`, {
+      await axios.put(`${SERVER_URL}/pets/${request.animalId}`, {
         adoption_status: "adopted"
       });
 
-      // 2. Marcăm cererea ca aprobată
       await axios.put(`${SERVER_URL}/adopt-request/${requestId}`, {
         approved: true
       });
 
-      // 3. Actualizăm statisticile animale
       const updatedPets = await axios.get(`${SERVER_URL}/pets`);
       const data = updatedPets.data.animals;
       const adopted = data.filter(animal => animal.adoption_status === "adopted").length;
@@ -65,7 +56,6 @@ const Dashboard = () => {
       const reserved = data.filter(animal => animal.adoption_status === "reserved").length;
       setStats({ total: data.length, adopted, available, reserved });
 
-      // 4. Scoatem cererea din listă
       setRequests(prev => prev.filter(r => r.id !== requestId));
 
       console.log(`Cererea ${requestId} aprobată și animalul marcat ca adoptat.`);
@@ -77,7 +67,16 @@ const Dashboard = () => {
   const handleReject = async (id) => {
     try {
       await axios.delete(`${SERVER_URL}/adopt-request/${id}`);
+
+      const request = requests.find(req => req.id === id);
+      if (request && request.animalId) {
+        await axios.put(`${SERVER_URL}/pets/${request.animalId}`, {
+          adoption_status: "available"
+        });
+      }
+
       setRequests(prev => prev.filter(req => req.id !== id));
+
       console.log(`Cererea ${id} respinsă și ștearsă cu succes.`);
     } catch (error) {
       console.error("Eroare la respingerea cererii:", error);
@@ -138,6 +137,8 @@ const Dashboard = () => {
               <p><strong>Email:</strong> {req.email}</p>
               <p><strong>Telefon:</strong> {req.phone}</p>
               <p><strong>Mesaj:</strong> {req.message || "–"}</p>
+              <p><strong>Animal:</strong> {req.animal ? req.animal.name : "N/A"}</p>
+              <p><strong>Specie:</strong> {req.animal ? req.animal.species : "N/A"}</p>
               <p><strong>Ridicare:</strong> {new Date(req.pickupDateTime).toLocaleString()}</p>
               <div className="request-buttons">
                 <button className="accept" onClick={() => handleAccept(req.id)}>Acceptă</button>

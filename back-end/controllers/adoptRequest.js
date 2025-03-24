@@ -1,4 +1,5 @@
 import { AdoptRequest } from "../models/adoptRequest.js";
+import { Animal } from "../models/animals.js";
 
 const addContactRequest = async (req, res) => {
     try {
@@ -21,7 +22,7 @@ const addContactRequest = async (req, res) => {
             phone,
             message,
             pickupDateTime,
-            animalId, // ✅ Adăugat aici!
+            animalId,
         });
 
         return res.status(201).json({
@@ -37,11 +38,37 @@ const addContactRequest = async (req, res) => {
 
 const getAllRequests = async (req, res) => {
     try {
-        const requests = await AdoptRequest.findAll();
+        const requests = await AdoptRequest.findAll({
+            include: {
+                model: Animal,
+                attributes: ["name", "species"]
+            }
+        });
+
         res.status(200).json(requests);
     } catch (error) {
         console.error("Error getting adoption requests:", error);
         res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+const approveRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [updatedCount] = await AdoptRequest.update(
+            { approved: true },
+            { where: { id } }
+        );
+
+        if (updatedCount === 0) {
+            return res.status(404).json({ message: "Cererea nu a fost găsită." });
+        }
+
+        return res.status(200).json({ message: "Cererea a fost aprobată cu succes." });
+    } catch (err) {
+        console.error("Eroare la aprobarea cererii:", err);
+        res.status(500).json({ message: "Eroare server", error: err.message });
     }
 };
 
@@ -54,7 +81,6 @@ const deleteRequest = async (req, res) => {
             return res.status(404).json({ message: "Cererea nu a fost găsită." });
         }
 
-        // Setează animalul ca disponibil
         await request.getAnimal().then(animal => {
             if (animal) {
                 animal.adoption_status = "available";
@@ -62,7 +88,6 @@ const deleteRequest = async (req, res) => {
             }
         });
 
-        // Șterge cererea
         await request.destroy();
 
         res.status(200).json({ message: "Cererea a fost ștearsă și animalul marcat ca disponibil." });
@@ -76,5 +101,6 @@ const deleteRequest = async (req, res) => {
 export {
     addContactRequest,
     getAllRequests,
+    approveRequest,
     deleteRequest
 };
